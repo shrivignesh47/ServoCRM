@@ -1,5 +1,6 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mycompany.myapp.domain.enumeration.industry;
 import com.mycompany.myapp.domain.enumeration.rating;
 import com.mycompany.myapp.domain.enumeration.social;
@@ -7,6 +8,8 @@ import com.mycompany.myapp.domain.enumeration.source;
 import com.mycompany.myapp.domain.enumeration.status;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -113,6 +116,10 @@ public class Lead implements Serializable {
     @NotNull(message = "must not be null")
     @Field("phone")
     private Integer phone;
+
+    @Field("deal")
+    @JsonIgnoreProperties(value = { "user", "accounts", "contacts", "lead" }, allowSetters = true)
+    private Set<Deal> deals = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -439,6 +446,37 @@ public class Lead implements Serializable {
 
     public void setPhone(Integer phone) {
         this.phone = phone;
+    }
+
+    public Set<Deal> getDeals() {
+        return this.deals;
+    }
+
+    public void setDeals(Set<Deal> deals) {
+        if (this.deals != null) {
+            this.deals.forEach(i -> i.setLead(null));
+        }
+        if (deals != null) {
+            deals.forEach(i -> i.setLead(this));
+        }
+        this.deals = deals;
+    }
+
+    public Lead deals(Set<Deal> deals) {
+        this.setDeals(deals);
+        return this;
+    }
+
+    public Lead addDeal(Deal deal) {
+        this.deals.add(deal);
+        deal.setLead(this);
+        return this;
+    }
+
+    public Lead removeDeal(Deal deal) {
+        this.deals.remove(deal);
+        deal.setLead(null);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

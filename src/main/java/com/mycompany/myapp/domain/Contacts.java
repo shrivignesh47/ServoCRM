@@ -1,9 +1,12 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mycompany.myapp.domain.enumeration.source;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -94,6 +97,10 @@ public class Contacts implements Serializable {
     @NotNull(message = "must not be null")
     @Field("description")
     private String description;
+
+    @Field("deal")
+    @JsonIgnoreProperties(value = { "user", "accounts", "contacts", "lead" }, allowSetters = true)
+    private Set<Deal> deals = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -355,6 +362,37 @@ public class Contacts implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Deal> getDeals() {
+        return this.deals;
+    }
+
+    public void setDeals(Set<Deal> deals) {
+        if (this.deals != null) {
+            this.deals.forEach(i -> i.setContacts(null));
+        }
+        if (deals != null) {
+            deals.forEach(i -> i.setContacts(this));
+        }
+        this.deals = deals;
+    }
+
+    public Contacts deals(Set<Deal> deals) {
+        this.setDeals(deals);
+        return this;
+    }
+
+    public Contacts addDeal(Deal deal) {
+        this.deals.add(deal);
+        deal.setContacts(this);
+        return this;
+    }
+
+    public Contacts removeDeal(Deal deal) {
+        this.deals.remove(deal);
+        deal.setContacts(null);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

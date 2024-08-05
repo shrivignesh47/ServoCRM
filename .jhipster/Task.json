@@ -1,0 +1,56 @@
+{
+  "annotations": {
+    "changelogDate": "20240805182121"
+  },
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "subject",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "due_date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": []
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "status",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "NOT_STARTED,DEFERRED,IN_PROGRESS,COMPLETED,WAITING_FOR_INPUT"
+    },
+    {
+      "fieldName": "priority",
+      "fieldType": "priority",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "HIGH,HIGHEST,LOW,LOWEST,NORMAL"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "reminder",
+      "fieldType": "reminder",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "YES,NO"
+    }
+  ],
+  "name": "Task",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "task",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

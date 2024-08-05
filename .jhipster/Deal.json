@@ -1,0 +1,90 @@
+{
+  "annotations": {
+    "changelogDate": "20240805175756"
+  },
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "deal_name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "closing_date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "stage",
+      "fieldType": "Stage",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "QUALIFICATION,NEEDS_ANALYSIS,VALUE_PROPOSITION,IDENTIFY_DECISION_MAKERS,PROPOSAL,PRICE_QUOTE,NEGOTIATION,REVIEW,CLOSED_WON,CLOSED_LOST,CLOSED_LOST_TO_COMPETITION"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "Type",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "NONE,EXISTING_BUSINESS,NEW_BUSINESS"
+    },
+    {
+      "fieldName": "probability_Percentage",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "compaign_Source",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Deal",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "deal",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    },
+    {
+      "otherEntityField": "account_owner",
+      "otherEntityName": "accounts",
+      "otherEntityRelationshipName": "deal",
+      "relationshipName": "accounts",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    },
+    {
+      "otherEntityField": "first_name",
+      "otherEntityName": "contacts",
+      "otherEntityRelationshipName": "deal",
+      "relationshipName": "contacts",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    },
+    {
+      "otherEntityField": "lead_source",
+      "otherEntityName": "lead",
+      "otherEntityRelationshipName": "deal",
+      "relationshipName": "lead",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}
