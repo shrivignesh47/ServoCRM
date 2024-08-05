@@ -1,0 +1,13 @@
+export enum rating {
+  NONE = 'NONE',
+
+  ACQUIRED = 'ACQUIRED',
+
+  ACTIVE = 'ACTIVE',
+
+  MARKET_FAILED = 'MARKET_FAILED',
+
+  PROJECT_CANCELLED = 'PROJECT_CANCELLED',
+
+  SHUT_DOWN = 'SHUT_DOWN',
+}

@@ -1,0 +1,49 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 92vh;
+  background-color: #b0d0ff;
+  padding: 20px;
+
+  .register-box {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    max-width: 900px;
+
+    .register-form {
+      padding: 2rem;
+      flex: 1;
+
+      h1 {
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .alert-link {
+        display: block;
+        margin-top: 1rem;
+        text-align: center;
+      }
+    }
+
+    .register-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      flex: 1;
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
