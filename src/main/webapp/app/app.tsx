@@ -2,7 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './app.scss';
 import 'app/config/dayjs';
 
-import React, { useEffect } from 'react';
+import React, { useEffect ,useState } from 'react';
 import { Card } from 'reactstrap';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,6 +16,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
+import Sidebar from './modules/Sidebar/Sidebar';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -27,12 +28,23 @@ export const App = () => {
     dispatch(getProfile());
   }, []);
 
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed);
+  };
+
+  const toggleCrmMenu = () => {
+    setCrmOpen(!crmOpen);
+  };
+
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   const ribbonEnv = useAppSelector(state => state.applicationProfile.ribbonEnv);
   const isInProduction = useAppSelector(state => state.applicationProfile.inProduction);
   const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
+  const [selectedMenu, setSelectedMenu] = useState('dashboard');
 
+  const [collapsed, setCollapsed] = useState(false);
+  const [crmOpen, setCrmOpen] = useState(false);
   const paddingTop = '60px';
   return (
     <BrowserRouter basename={baseHref}>
