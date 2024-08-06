@@ -6,6 +6,7 @@ import task from 'app/entities/task/task.reducer';
 import meetings from 'app/entities/meetings/meetings.reducer';
 import product from 'app/entities/product/product.reducer';
 import ticket from 'app/entities/ticket/ticket.reducer';
+import marketing from 'app/entities/marketing/marketing.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -17,6 +18,7 @@ const entitiesReducers = {
   meetings,
   product,
   ticket,
+  marketing,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

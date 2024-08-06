@@ -11,6 +11,7 @@ import Task from './task';
 import Meetings from './meetings';
 import Product from './product';
 import Ticket from './ticket';
+import Marketing from './marketing';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -26,6 +27,7 @@ export default () => {
         <Route path="meetings/*" element={<Meetings />} />
         <Route path="product/*" element={<Product />} />
         <Route path="ticket/*" element={<Ticket />} />
+        <Route path="marketing/*" element={<Marketing />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>
