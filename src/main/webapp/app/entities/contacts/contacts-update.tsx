@@ -290,13 +290,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IContacts } from 'app/shared/model/contacts.model';
-import { source } from 'app/shared/model/enumerations/source.model';
+import { source as sourceEnum } from 'app/shared/model/enumerations/source.model';
 import { getEntity, updateEntity, createEntity, reset } from './contacts.reducer';
 import './ContactsUpdate.css';  // Import the CSS file
 
 export const ContactsUpdate = () => {
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
 
   const { id } = useParams<'id'>();
@@ -306,7 +305,7 @@ export const ContactsUpdate = () => {
   const loading = useAppSelector(state => state.contacts.loading);
   const updating = useAppSelector(state => state.contacts.updating);
   const updateSuccess = useAppSelector(state => state.contacts.updateSuccess);
-  const sourceValues = Object.keys(source);
+  const sourceValues = Object.keys(sourceEnum);
 
   const handleClose = () => {
     navigate('/contacts' + location.search);
@@ -318,51 +317,44 @@ export const ContactsUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
-  }, []);
+  }, [id, isNew, dispatch]);
 
   useEffect(() => {
     if (updateSuccess) {
       handleClose();
     }
-  }, [updateSuccess]);
+  }, [updateSuccess, handleClose]);
 
   const saveEntity = values => {
-    if (values.phone !== undefined && typeof values.phone !== 'number') {
-      values.phone = Number(values.phone);
-    }
-    if (values.mobile !== undefined && typeof values.mobile !== 'number') {
-      values.mobile = Number(values.mobile);
-    }
-    if (values.zip !== undefined && typeof values.zip !== 'number') {
-      values.zip = Number(values.zip);
-    }
-
     const entity = {
       ...contactsEntity,
       ...values,
+      phone: values.phone ? Number(values.phone) : undefined,
+      mobile: values.mobile ? Number(values.mobile) : undefined,
+      zip: values.zip ? Number(values.zip) : undefined,
     };
-    
+
     if (isNew) {
       dispatch(createEntity(entity));
     } else {
       dispatch(updateEntity(entity));
     }
   };
-  
+
   const defaultValues = () =>
-  isNew
-  ? {}
-  : {
-    lead_source: 'NONE',
-    ...contactsEntity,
-  };
-  
+    isNew
+      ? {}
+      : {
+          lead_source: 'NONE',
+          ...contactsEntity,
+        };
+
   return (
     <div className="contacts-update-container">
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="crmApp.contacts.home.createOrEditLabel" data-cy="ContactsCreateUpdateHeading" className="contacts-update-header">
-            Create or edit a Contacts
+            Create or edit a Contact
           </h2>
         </Col>
       </Row>
@@ -370,18 +362,18 @@ export const ContactsUpdate = () => {
         <Col md="8">
           {loading ? (
             <p className="contacts-update-loading">Loading...</p>
-            ) : (
-              <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity} className="contacts-update-form">
-              {!isNew ? <ValidatedField name="id" required readOnly id="contacts-id" label="ID" validate={{ required: true }} /> : null}
+          ) : (
+            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity} className="contacts-update-form">
+              {!isNew && (
+                <ValidatedField name="id" required readOnly id="contacts-id" label="ID" validate={{ required: true }} className="contacts-update-field" />
+              )}
               <ValidatedField
                 label="First Name"
                 id="contacts-first_name"
                 name="first_name"
                 data-cy="first_name"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -390,9 +382,7 @@ export const ContactsUpdate = () => {
                 name="last_name"
                 data-cy="last_name"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -401,10 +391,8 @@ export const ContactsUpdate = () => {
                 name="date_of_birth"
                 data-cy="date_of_birth"
                 type="date"
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
               />
               <ValidatedField
                 label="Account Name"
@@ -412,9 +400,7 @@ export const ContactsUpdate = () => {
                 name="account_name"
                 data-cy="account_name"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -423,15 +409,20 @@ export const ContactsUpdate = () => {
                 name="vendor_name"
                 data-cy="vendor_name"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
-              <ValidatedField label="Lead Source" id="contacts-lead_source" name="lead_source" data-cy="lead_source" type="select" className="contacts-update-field">
-                {sourceValues.map(source => (
-                  <option value={source} key={source}>
-                    {source}
+              <ValidatedField
+                label="Lead Source"
+                id="contacts-lead_source"
+                name="lead_source"
+                data-cy="lead_source"
+                type="select"
+                className="contacts-update-field"
+              >
+                {sourceValues.map(sourceValue => (
+                  <option value={sourceValue} key={sourceValue}>
+                    {sourceValue}
                   </option>
                 ))}
               </ValidatedField>
@@ -441,9 +432,7 @@ export const ContactsUpdate = () => {
                 name="email"
                 data-cy="email"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -452,9 +441,7 @@ export const ContactsUpdate = () => {
                 name="title"
                 data-cy="title"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -475,9 +462,7 @@ export const ContactsUpdate = () => {
                 name="department"
                 data-cy="department"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -504,26 +489,22 @@ export const ContactsUpdate = () => {
                 }}
                 className="contacts-update-field"
               />
-                <ValidatedField
-                  label="Social Media Handle"
-                  id="contacts-social_media_handle"
-                  name="social_media_handle"
-                  data-cy="social_media_handle"
-                  type="text"
-                  className="contacts-update-field"
-                  validate={{
-                    required: { value: true, message: 'This field is required.' },
-                  }}
-                />
+              <ValidatedField
+                label="Social Media Handle"
+                id="contacts-social_media_handle"
+                name="social_media_handle"
+                data-cy="social_media_handle"
+                type="text"
+                validate={{ required: { value: true, message: 'This field is required.' } }}
+                className="contacts-update-field"
+              />
               <ValidatedField
                 label="Address"
                 id="contacts-address"
                 name="address"
                 data-cy="address"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -532,9 +513,7 @@ export const ContactsUpdate = () => {
                 name="street"
                 data-cy="street"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -543,9 +522,7 @@ export const ContactsUpdate = () => {
                 name="city"
                 data-cy="city"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -554,9 +531,7 @@ export const ContactsUpdate = () => {
                 name="state"
                 data-cy="state"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -577,9 +552,7 @@ export const ContactsUpdate = () => {
                 name="country"
                 data-cy="country"
                 type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
               />
               <ValidatedField
@@ -588,21 +561,21 @@ export const ContactsUpdate = () => {
                 name="description"
                 data-cy="description"
                 type="text"
+                validate={{ required: { value: true, message: 'This field is required.' } }}
                 className="contacts-update-field"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
               />
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/contacts" replace color="info" className="contacts-update-cancel-button">
-                <FontAwesomeIcon icon="arrow-left" />
+              <div className="contacts-update-buttons">
+                <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/contacts" replace color="info" className="contacts-update-cancel-button">
+                  <FontAwesomeIcon icon="arrow-left" />
+                  &nbsp;
+                  <span className="d-none d-md-inline">Back</span>
+                </Button>
                 &nbsp;
-                <span className="d-none d-md-inline">Back</span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating} className="contacts-update-save-button">
-                <FontAwesomeIcon icon="save" />
-                &nbsp; Save
-              </Button>
+                <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating} className="contacts-update-save-button">
+                  <FontAwesomeIcon icon="save" />
+                  &nbsp; Save
+                </Button>
+              </div>
             </ValidatedForm>
           )}
         </Col>

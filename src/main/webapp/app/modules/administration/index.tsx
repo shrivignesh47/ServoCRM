@@ -23,4 +23,4 @@ const AdministrationRoutes = () => (
   </div>
 );
 
-export default AdministrationRoutes;
+export default AdministrationRoutes;  

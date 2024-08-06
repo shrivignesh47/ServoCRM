@@ -177,9 +177,6 @@ export const Accounts = () => {
                 <th className="hand" onClick={sort('sic_code')}>
                   Sic Code <FontAwesomeIcon icon={getSortIconByFieldName('sic_code')} />
                 </th>
-                <th className="hand" onClick={sort('account_type')}>
-                  Account Type <FontAwesomeIcon icon={getSortIconByFieldName('account_type')} />
-                </th>
                 <th>
                   User <FontAwesomeIcon icon="sort" />
                 </th>
@@ -216,7 +213,6 @@ export const Accounts = () => {
                   <td>{accounts.description}</td>
                   <td>{accounts.employees}</td>
                   <td>{accounts.sic_code}</td>
-                  <td>{accounts.account_type}</td>
                   <td>{accounts.user ? accounts.user.login : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">

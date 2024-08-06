@@ -115,10 +115,6 @@ export const AccountsDetail = () => {
             <span id="sic_code">Sic Code</span>
           </dt>
           <dd>{accountsEntity.sic_code}</dd>
-          <dt>
-            <span id="account_type">Account Type</span>
-          </dt>
-          <dd>{accountsEntity.account_type}</dd>
           <dt>User</dt>
           <dd>{accountsEntity.user ? accountsEntity.user.login : ''}</dd>
         </dl>
