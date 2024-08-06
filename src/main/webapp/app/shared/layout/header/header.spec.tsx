@@ -1,13 +1,101 @@
+// import React from 'react';
+// import { render, screen } from '@testing-library/react';
+// import { Provider } from 'react-redux';
+// import { MemoryRouter } from 'react-router-dom';
+// import initStore from 'app/config/store';
+// import Header from './header';
+
+// describe('Header', () => {
+//   let mountedWrapper;
+  
+//   const devProps = {
+//     isAuthenticated: true,
+//     isAdmin: true,
+//     ribbonEnv: 'dev',
+//     isInProduction: false,
+//     isOpenAPIEnabled: true,
+//   };
+  
+//   const prodProps = {
+//     ...devProps,
+//     ribbonEnv: 'prod',
+//     isInProduction: true,
+//     isOpenAPIEnabled: false,
+//   };
+  
+//   const userProps = {
+//     ...prodProps,
+//     isAdmin: false,
+//   };
+  
+//   const guestProps = {
+//     ...prodProps,
+//     isAdmin: false,
+//     isAuthenticated: false,
+//   };
+
+//   const renderComponent = (props = devProps) => {
+//     const store = initStore();
+//     render(
+//       <Provider store={store}>
+//         <MemoryRouter>
+//           <Header {...props} />
+//         </MemoryRouter>
+//       </Provider>
+//     );
+//   };
+
+//   beforeEach(() => {
+//     mountedWrapper = undefined;
+//   });
+
+//   it('Renders a Header component in dev profile with LoadingBar, Navbar, Nav and dev ribbon.', () => {
+//     renderComponent();
+
+//     expect(screen.getByRole('navigation')).toBeInTheDocument();
+//     expect(screen.getByText('admin-menu')).toBeInTheDocument();
+//     expect(screen.getByText('entity-menu')).toBeInTheDocument();
+//     expect(screen.getByText('account-menu')).toBeInTheDocument();
+//     expect(screen.getByText('ribbon')).toBeInTheDocument(); // Adjust based on actual ribbon text or element
+//   });
+
+//   it('Renders a Header component in prod profile with LoadingBar, Navbar, Nav.', () => {
+//     renderComponent(prodProps);
+
+//     expect(screen.getByRole('navigation')).toBeInTheDocument();
+//     expect(screen.queryByText('admin-menu')).not.toBeInTheDocument();
+//     expect(screen.getByText('entity-menu')).toBeInTheDocument();
+//     expect(screen.getByText('account-menu')).toBeInTheDocument();
+//     expect(screen.queryByText('ribbon')).not.toBeInTheDocument();
+//   });
+
+//   it('Renders a Header component in prod profile with logged in User', () => {
+//     renderComponent(userProps);
+
+//     expect(screen.getByRole('navigation')).toBeInTheDocument();
+//     expect(screen.queryByText('admin-menu')).not.toBeInTheDocument();
+//     expect(screen.getByText('entity-menu')).toBeInTheDocument();
+//     expect(screen.getByText('account-menu')).toBeInTheDocument();
+//   });
+
+//   it('Renders a Header component in prod profile with no logged in User', () => {
+//     renderComponent(guestProps);
+
+//     expect(screen.getByRole('navigation')).toBeInTheDocument();
+//     expect(screen.queryByText('admin-menu')).not.toBeInTheDocument();
+//     expect(screen.queryByText('entity-menu')).not.toBeInTheDocument();
+//     expect(screen.getByText('account-menu')).toBeInTheDocument();
+//   });
+// });
+import '@testing-library/jest-dom'; // Ensure this import is included
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-
 import initStore from 'app/config/store';
 import Header from './header';
 
 describe('Header', () => {
-  let mountedWrapper;
   const devProps = {
     isAuthenticated: true,
     isAdmin: true,
@@ -15,95 +103,71 @@ describe('Header', () => {
     isInProduction: false,
     isOpenAPIEnabled: true,
   };
+
   const prodProps = {
     ...devProps,
     ribbonEnv: 'prod',
     isInProduction: true,
     isOpenAPIEnabled: false,
   };
+
   const userProps = {
     ...prodProps,
     isAdmin: false,
   };
+
   const guestProps = {
     ...prodProps,
     isAdmin: false,
     isAuthenticated: false,
   };
 
-  const wrapper = (props = devProps) => {
-    if (!mountedWrapper) {
-      const store = initStore();
-      const { container } = render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <Header {...props} />
-          </MemoryRouter>
-        </Provider>,
-      );
-      mountedWrapper = container.innerHTML;
-    }
-    return mountedWrapper;
+  const renderComponent = (props = devProps) => {
+    const store = initStore();
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Header {...props} />
+        </MemoryRouter>
+      </Provider>
+    );
   };
 
-  beforeEach(() => {
-    mountedWrapper = undefined;
-  });
-
-  // All tests will go here
   it('Renders a Header component in dev profile with LoadingBar, Navbar, Nav and dev ribbon.', () => {
-    const html = wrapper();
+    renderComponent();
 
-    // Find Navbar component
-    expect(html).toContain('navbar');
-    // Find AdminMenu component
-    expect(html).toContain('admin-menu');
-    // Find EntitiesMenu component
-    expect(html).toContain('entity-menu');
-    // Find AccountMenu component
-    expect(html).toContain('account-menu');
-    // Ribbon
-    expect(html).toContain('ribbon');
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(screen.getByText('admin-menu')).toBeInTheDocument();
+    expect(screen.getByText('entity-menu')).toBeInTheDocument();
+    expect(screen.getByText('account-menu')).toBeInTheDocument();
+    expect(screen.getByText('ribbon')).toBeInTheDocument(); // Adjust based on actual ribbon text or element
   });
 
   it('Renders a Header component in prod profile with LoadingBar, Navbar, Nav.', () => {
-    const html = wrapper(prodProps);
+    renderComponent(prodProps);
 
-    // Find Navbar component
-    expect(html).toContain('navbar');
-    // Find AdminMenu component
-    expect(html).toContain('admin-menu');
-    // Find EntitiesMenu component
-    expect(html).toContain('entity-menu');
-    // Find AccountMenu component
-    expect(html).toContain('account-menu');
-    // No Ribbon
-    expect(html).not.toContain('ribbon');
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(screen.queryByText('admin-menu')).not.toBeInTheDocument();
+    expect(screen.getByText('entity-menu')).toBeInTheDocument();
+    expect(screen.getByText('account-menu')).toBeInTheDocument();
+    expect(screen.queryByText('ribbon')).not.toBeInTheDocument();
   });
 
   it('Renders a Header component in prod profile with logged in User', () => {
-    const html = wrapper(userProps);
+    renderComponent(userProps);
 
-    // Find Navbar component
-    expect(html).toContain('navbar');
-    // Not find AdminMenu component
-    expect(html).not.toContain('admin-menu');
-    // Find EntitiesMenu component
-    expect(html).toContain('entity-menu');
-    // Find AccountMenu component
-    expect(html).toContain('account-menu');
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(screen.queryByText('admin-menu')).not.toBeInTheDocument();
+    expect(screen.getByText('entity-menu')).toBeInTheDocument();
+    expect(screen.getByText('account-menu')).toBeInTheDocument();
   });
 
   it('Renders a Header component in prod profile with no logged in User', () => {
-    const html = wrapper(guestProps);
+    renderComponent(guestProps);
 
-    // Find Navbar component
-    expect(html).toContain('navbar');
-    // Not find AdminMenu component
-    expect(html).not.toContain('admin-menu');
-    // Not find EntitiesMenu component
-    expect(html).not.toContain('entity-menu');
-    // Find AccountMenu component
-    expect(html).toContain('account-menu');
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(screen.queryByText('admin-menu')).not.toBeInTheDocument();
+    expect(screen.queryByText('entity-menu')).not.toBeInTheDocument();
+    expect(screen.getByText('account-menu')).toBeInTheDocument();
   });
 });

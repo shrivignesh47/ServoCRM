@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Accounts;
 import com.mycompany.myapp.domain.User;
-import com.mycompany.myapp.domain.enumeration.acc_type;
 import com.mycompany.myapp.domain.enumeration.ownership;
 import com.mycompany.myapp.domain.enumeration.rating;
 import com.mycompany.myapp.repository.AccountsRepository;
@@ -106,9 +105,6 @@ class AccountsResourceIT {
     private static final Long DEFAULT_SIC_CODE = 1L;
     private static final Long UPDATED_SIC_CODE = 2L;
 
-    private static final acc_type DEFAULT_ACCOUNT_TYPE = acc_type.NONE;
-    private static final acc_type UPDATED_ACCOUNT_TYPE = acc_type.ANALYST;
-
     private static final String ENTITY_API_URL = "/api/accounts";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -163,8 +159,7 @@ class AccountsResourceIT {
             .shipping_country(DEFAULT_SHIPPING_COUNTRY)
             .description(DEFAULT_DESCRIPTION)
             .employees(DEFAULT_EMPLOYEES)
-            .sic_code(DEFAULT_SIC_CODE)
-            .account_type(DEFAULT_ACCOUNT_TYPE);
+            .sic_code(DEFAULT_SIC_CODE);
         // Add required entity
         User user = UserResourceIT.createEntity();
         user.setId("fixed-id-for-tests");
@@ -201,8 +196,7 @@ class AccountsResourceIT {
             .shipping_country(UPDATED_SHIPPING_COUNTRY)
             .description(UPDATED_DESCRIPTION)
             .employees(UPDATED_EMPLOYEES)
-            .sic_code(UPDATED_SIC_CODE)
-            .account_type(UPDATED_ACCOUNT_TYPE);
+            .sic_code(UPDATED_SIC_CODE);
         // Add required entity
         User user = UserResourceIT.createEntity();
         user.setId("fixed-id-for-tests");
@@ -568,26 +562,6 @@ class AccountsResourceIT {
     }
 
     @Test
-    void checkAccount_typeIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        accounts.setAccount_type(null);
-
-        // Create the Accounts, which fails.
-
-        webTestClient
-            .post()
-            .uri(ENTITY_API_URL)
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(om.writeValueAsBytes(accounts))
-            .exchange()
-            .expectStatus()
-            .isBadRequest();
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
     void getAllAccounts() {
         // Initialize the database
         insertedAccounts = accountsRepository.save(accounts).block();
@@ -648,9 +622,7 @@ class AccountsResourceIT {
             .jsonPath("$.[*].employees")
             .value(hasItem(DEFAULT_EMPLOYEES))
             .jsonPath("$.[*].sic_code")
-            .value(hasItem(DEFAULT_SIC_CODE.intValue()))
-            .jsonPath("$.[*].account_type")
-            .value(hasItem(DEFAULT_ACCOUNT_TYPE.toString()));
+            .value(hasItem(DEFAULT_SIC_CODE.intValue()));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -731,9 +703,7 @@ class AccountsResourceIT {
             .jsonPath("$.employees")
             .value(is(DEFAULT_EMPLOYEES))
             .jsonPath("$.sic_code")
-            .value(is(DEFAULT_SIC_CODE.intValue()))
-            .jsonPath("$.account_type")
-            .value(is(DEFAULT_ACCOUNT_TYPE.toString()));
+            .value(is(DEFAULT_SIC_CODE.intValue()));
     }
 
     @Test
@@ -779,8 +749,7 @@ class AccountsResourceIT {
             .shipping_country(UPDATED_SHIPPING_COUNTRY)
             .description(UPDATED_DESCRIPTION)
             .employees(UPDATED_EMPLOYEES)
-            .sic_code(UPDATED_SIC_CODE)
-            .account_type(UPDATED_ACCOUNT_TYPE);
+            .sic_code(UPDATED_SIC_CODE);
 
         webTestClient
             .put()
@@ -924,8 +893,7 @@ class AccountsResourceIT {
             .shipping_country(UPDATED_SHIPPING_COUNTRY)
             .description(UPDATED_DESCRIPTION)
             .employees(UPDATED_EMPLOYEES)
-            .sic_code(UPDATED_SIC_CODE)
-            .account_type(UPDATED_ACCOUNT_TYPE);
+            .sic_code(UPDATED_SIC_CODE);
 
         webTestClient
             .patch()

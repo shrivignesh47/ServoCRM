@@ -109,12 +109,6 @@
       "fieldName": "sic_code",
       "fieldType": "Long",
       "fieldValidateRules": []
-    },
-    {
-      "fieldName": "account_type",
-      "fieldType": "acc_type",
-      "fieldValidateRules": ["required"],
-      "fieldValues": "NONE,ANALYST,COMPETITOR,CUSTOMER,DISTRIBUTOR,INTEGRATOR,INVESTER,OTHER,PARTNER,PRESS,RESELLER,SUPPLIER,VENDOR"
     }
   ],
   "name": "Accounts",

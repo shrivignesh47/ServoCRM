@@ -1,7 +1,6 @@
 package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mycompany.myapp.domain.enumeration.acc_type;
 import com.mycompany.myapp.domain.enumeration.ownership;
 import com.mycompany.myapp.domain.enumeration.rating;
 import jakarta.validation.constraints.*;
@@ -104,10 +103,6 @@ public class Accounts implements Serializable {
 
     @Field("sic_code")
     private Long sic_code;
-
-    @NotNull(message = "must not be null")
-    @Field("account_type")
-    private acc_type account_type;
 
     @Field("user")
     private User user;
@@ -417,19 +412,6 @@ public class Accounts implements Serializable {
         this.sic_code = sic_code;
     }
 
-    public acc_type getAccount_type() {
-        return this.account_type;
-    }
-
-    public Accounts account_type(acc_type account_type) {
-        this.setAccount_type(account_type);
-        return this;
-    }
-
-    public void setAccount_type(acc_type account_type) {
-        this.account_type = account_type;
-    }
-
     public User getUser() {
         return this.user;
     }
@@ -520,7 +502,6 @@ public class Accounts implements Serializable {
             ", description='" + getDescription() + "'" +
             ", employees=" + getEmployees() +
             ", sic_code=" + getSic_code() +
-            ", account_type='" + getAccount_type() + "'" +
             "}";
     }
 }

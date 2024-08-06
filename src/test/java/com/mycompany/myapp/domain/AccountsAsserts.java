@@ -68,8 +68,7 @@ public class AccountsAsserts {
             .satisfies(e -> assertThat(e.getShipping_country()).as("check shipping_country").isEqualTo(actual.getShipping_country()))
             .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
             .satisfies(e -> assertThat(e.getEmployees()).as("check employees").isEqualTo(actual.getEmployees()))
-            .satisfies(e -> assertThat(e.getSic_code()).as("check sic_code").isEqualTo(actual.getSic_code()))
-            .satisfies(e -> assertThat(e.getAccount_type()).as("check account_type").isEqualTo(actual.getAccount_type()));
+            .satisfies(e -> assertThat(e.getSic_code()).as("check sic_code").isEqualTo(actual.getSic_code()));
     }
 
     /**

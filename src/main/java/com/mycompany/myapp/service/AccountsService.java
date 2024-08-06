@@ -123,9 +123,6 @@ public class AccountsService {
                 if (accounts.getSic_code() != null) {
                     existingAccounts.setSic_code(accounts.getSic_code());
                 }
-                if (accounts.getAccount_type() != null) {
-                    existingAccounts.setAccount_type(accounts.getAccount_type());
-                }
 
                 return existingAccounts;
             })
