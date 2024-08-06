@@ -15,12 +15,6 @@
       "fieldValidateRules": []
     },
     {
-      "fieldName": "status",
-      "fieldType": "status",
-      "fieldValidateRules": ["required"],
-      "fieldValues": "NOT_STARTED,DEFERRED,IN_PROGRESS,COMPLETED,WAITING_FOR_INPUT"
-    },
-    {
       "fieldName": "priority",
       "fieldType": "priority",
       "fieldValidateRules": ["required"],

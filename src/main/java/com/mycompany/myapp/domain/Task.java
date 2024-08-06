@@ -2,7 +2,6 @@ package com.mycompany.myapp.domain;
 
 import com.mycompany.myapp.domain.enumeration.priority;
 import com.mycompany.myapp.domain.enumeration.reminder;
-import com.mycompany.myapp.domain.enumeration.status;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -28,10 +27,6 @@ public class Task implements Serializable {
 
     @Field("due_date")
     private ZonedDateTime due_date;
-
-    @NotNull(message = "must not be null")
-    @Field("status")
-    private status status;
 
     @NotNull(message = "must not be null")
     @Field("priority")
@@ -87,19 +82,6 @@ public class Task implements Serializable {
 
     public void setDue_date(ZonedDateTime due_date) {
         this.due_date = due_date;
-    }
-
-    public status getStatus() {
-        return this.status;
-    }
-
-    public Task status(status status) {
-        this.setStatus(status);
-        return this;
-    }
-
-    public void setStatus(status status) {
-        this.status = status;
     }
 
     public priority getPriority() {
@@ -180,7 +162,6 @@ public class Task implements Serializable {
             "id=" + getId() +
             ", subject='" + getSubject() + "'" +
             ", due_date='" + getDue_date() + "'" +
-            ", status='" + getStatus() + "'" +
             ", priority='" + getPriority() + "'" +
             ", description='" + getDescription() + "'" +
             ", reminder='" + getReminder() + "'" +

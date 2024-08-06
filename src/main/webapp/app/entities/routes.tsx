@@ -8,6 +8,9 @@ import Contacts from './contacts';
 import Accounts from './accounts';
 import Deal from './deal';
 import Task from './task';
+import Meetings from './meetings';
+import Product from './product';
+import Ticket from './ticket';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -20,6 +23,9 @@ export default () => {
         <Route path="accounts/*" element={<Accounts />} />
         <Route path="deal/*" element={<Deal />} />
         <Route path="task/*" element={<Task />} />
+        <Route path="meetings/*" element={<Meetings />} />
+        <Route path="product/*" element={<Product />} />
+        <Route path="ticket/*" element={<Ticket />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>

@@ -118,9 +118,6 @@ export const Task = () => {
                 <th className="hand" onClick={sort('due_date')}>
                   Due Date <FontAwesomeIcon icon={getSortIconByFieldName('due_date')} />
                 </th>
-                <th className="hand" onClick={sort('status')}>
-                  Status <FontAwesomeIcon icon={getSortIconByFieldName('status')} />
-                </th>
                 <th className="hand" onClick={sort('priority')}>
                   Priority <FontAwesomeIcon icon={getSortIconByFieldName('priority')} />
                 </th>
@@ -146,7 +143,6 @@ export const Task = () => {
                   </td>
                   <td>{task.subject}</td>
                   <td>{task.due_date ? <TextFormat type="date" value={task.due_date} format={APP_DATE_FORMAT} /> : null}</td>
-                  <td>{task.status}</td>
                   <td>{task.priority}</td>
                   <td>{task.description}</td>
                   <td>{task.reminder}</td>

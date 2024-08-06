@@ -1,0 +1,86 @@
+{
+  "annotations": {
+    "changelogDate": "20240805183629"
+  },
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "product_name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "product_code",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "product_category",
+      "fieldType": "product_cat",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "NONE,HARDWARE,SOFTWARE,CRM_APPLICATION"
+    },
+    {
+      "fieldName": "manufacture",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sales_start_date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sales_end_date",
+      "fieldType": "h",
+      "fieldValues": "H"
+    },
+    {
+      "fieldName": "sales_Ending_date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "support_start_date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "support_end_date",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "unit_price",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "commission_rate",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "tax",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Product",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "product",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

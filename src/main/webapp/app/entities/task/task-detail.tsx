@@ -37,10 +37,6 @@ export const TaskDetail = () => {
           </dt>
           <dd>{taskEntity.due_date ? <TextFormat value={taskEntity.due_date} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
           <dt>
-            <span id="status">Status</span>
-          </dt>
-          <dd>{taskEntity.status}</dd>
-          <dt>
             <span id="priority">Priority</span>
           </dt>
           <dd>{taskEntity.priority}</dd>

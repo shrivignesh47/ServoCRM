@@ -13,7 +13,6 @@ import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Task;
 import com.mycompany.myapp.domain.enumeration.priority;
 import com.mycompany.myapp.domain.enumeration.reminder;
-import com.mycompany.myapp.domain.enumeration.status;
 import com.mycompany.myapp.repository.TaskRepository;
 import com.mycompany.myapp.repository.UserRepository;
 import com.mycompany.myapp.service.TaskService;
@@ -49,9 +48,6 @@ class TaskResourceIT {
 
     private static final ZonedDateTime DEFAULT_DUE_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_DUE_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-
-    private static final status DEFAULT_STATUS = status.NOT_STARTED;
-    private static final status UPDATED_STATUS = status.DEFERRED;
 
     private static final priority DEFAULT_PRIORITY = priority.HIGH;
     private static final priority UPDATED_PRIORITY = priority.HIGHEST;
@@ -97,7 +93,6 @@ class TaskResourceIT {
         Task task = new Task()
             .subject(DEFAULT_SUBJECT)
             .due_date(DEFAULT_DUE_DATE)
-            .status(DEFAULT_STATUS)
             .priority(DEFAULT_PRIORITY)
             .description(DEFAULT_DESCRIPTION)
             .reminder(DEFAULT_REMINDER);
@@ -114,7 +109,6 @@ class TaskResourceIT {
         Task task = new Task()
             .subject(UPDATED_SUBJECT)
             .due_date(UPDATED_DUE_DATE)
-            .status(UPDATED_STATUS)
             .priority(UPDATED_PRIORITY)
             .description(UPDATED_DESCRIPTION)
             .reminder(UPDATED_REMINDER);
@@ -183,26 +177,6 @@ class TaskResourceIT {
         long databaseSizeBeforeTest = getRepositoryCount();
         // set the field null
         task.setSubject(null);
-
-        // Create the Task, which fails.
-
-        webTestClient
-            .post()
-            .uri(ENTITY_API_URL)
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(om.writeValueAsBytes(task))
-            .exchange()
-            .expectStatus()
-            .isBadRequest();
-
-        assertSameRepositoryCount(databaseSizeBeforeTest);
-    }
-
-    @Test
-    void checkStatusIsRequired() throws Exception {
-        long databaseSizeBeforeTest = getRepositoryCount();
-        // set the field null
-        task.setStatus(null);
 
         // Create the Task, which fails.
 
@@ -300,8 +274,6 @@ class TaskResourceIT {
             .value(hasItem(DEFAULT_SUBJECT))
             .jsonPath("$.[*].due_date")
             .value(hasItem(sameInstant(DEFAULT_DUE_DATE)))
-            .jsonPath("$.[*].status")
-            .value(hasItem(DEFAULT_STATUS.toString()))
             .jsonPath("$.[*].priority")
             .value(hasItem(DEFAULT_PRIORITY.toString()))
             .jsonPath("$.[*].description")
@@ -349,8 +321,6 @@ class TaskResourceIT {
             .value(is(DEFAULT_SUBJECT))
             .jsonPath("$.due_date")
             .value(is(sameInstant(DEFAULT_DUE_DATE)))
-            .jsonPath("$.status")
-            .value(is(DEFAULT_STATUS.toString()))
             .jsonPath("$.priority")
             .value(is(DEFAULT_PRIORITY.toString()))
             .jsonPath("$.description")
@@ -383,7 +353,6 @@ class TaskResourceIT {
         updatedTask
             .subject(UPDATED_SUBJECT)
             .due_date(UPDATED_DUE_DATE)
-            .status(UPDATED_STATUS)
             .priority(UPDATED_PRIORITY)
             .description(UPDATED_DESCRIPTION)
             .reminder(UPDATED_REMINDER);
@@ -470,7 +439,7 @@ class TaskResourceIT {
         Task partialUpdatedTask = new Task();
         partialUpdatedTask.setId(task.getId());
 
-        partialUpdatedTask.status(UPDATED_STATUS).reminder(UPDATED_REMINDER);
+        partialUpdatedTask.priority(UPDATED_PRIORITY);
 
         webTestClient
             .patch()
@@ -501,7 +470,6 @@ class TaskResourceIT {
         partialUpdatedTask
             .subject(UPDATED_SUBJECT)
             .due_date(UPDATED_DUE_DATE)
-            .status(UPDATED_STATUS)
             .priority(UPDATED_PRIORITY)
             .description(UPDATED_DESCRIPTION)
             .reminder(UPDATED_REMINDER);

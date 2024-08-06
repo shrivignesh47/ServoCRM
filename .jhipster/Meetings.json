@@ -1,0 +1,49 @@
+{
+  "annotations": {
+    "changelogDate": "20240805183411"
+  },
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "location",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ONLINE,OFFLINE"
+    },
+    {
+      "fieldName": "location_Offline_Detail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "from",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "to",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "Meetings",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "meetings",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"]
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

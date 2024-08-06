@@ -70,7 +70,7 @@ class LeadResourceIT {
     private static final Float DEFAULT_ANNUAL_REVENUE = 1F;
     private static final Float UPDATED_ANNUAL_REVENUE = 2F;
 
-    private static final rating DEFAULT_RATING = rating.NONE;
+    private static final rating DEFAULT_RATING = rating.ACQUIRED;
     private static final rating UPDATED_RATING = rating.ACTIVE;
 
     private static final social DEFAULT_SOCIAL_MEDIA = social.INSTAGRAM;

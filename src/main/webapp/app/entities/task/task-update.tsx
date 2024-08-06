@@ -11,7 +11,6 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { ITask } from 'app/shared/model/task.model';
-import { status } from 'app/shared/model/enumerations/status.model';
 import { priority } from 'app/shared/model/enumerations/priority.model';
 import { reminder } from 'app/shared/model/enumerations/reminder.model';
 import { getEntity, updateEntity, createEntity, reset } from './task.reducer';
@@ -29,7 +28,6 @@ export const TaskUpdate = () => {
   const loading = useAppSelector(state => state.task.loading);
   const updating = useAppSelector(state => state.task.updating);
   const updateSuccess = useAppSelector(state => state.task.updateSuccess);
-  const statusValues = Object.keys(status);
   const priorityValues = Object.keys(priority);
   const reminderValues = Object.keys(reminder);
 
@@ -76,7 +74,6 @@ export const TaskUpdate = () => {
           due_date: displayDefaultDateTime(),
         }
       : {
-          status: 'NOT_STARTED',
           priority: 'HIGH',
           reminder: 'YES',
           ...taskEntity,
@@ -118,13 +115,6 @@ export const TaskUpdate = () => {
                 type="datetime-local"
                 placeholder="YYYY-MM-DD HH:mm"
               />
-              <ValidatedField label="Status" id="task-status" name="status" data-cy="status" type="select">
-                {statusValues.map(status => (
-                  <option value={status} key={status}>
-                    {status}
-                  </option>
-                ))}
-              </ValidatedField>
               <ValidatedField label="Priority" id="task-priority" name="priority" data-cy="priority" type="select">
                 {priorityValues.map(priority => (
                   <option value={priority} key={priority}>

@@ -63,9 +63,6 @@ public class TaskService {
                 if (task.getDue_date() != null) {
                     existingTask.setDue_date(task.getDue_date());
                 }
-                if (task.getStatus() != null) {
-                    existingTask.setStatus(task.getStatus());
-                }
                 if (task.getPriority() != null) {
                     existingTask.setPriority(task.getPriority());
                 }

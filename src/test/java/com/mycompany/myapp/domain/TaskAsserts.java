@@ -56,7 +56,6 @@ public class TaskAsserts {
                         .usingComparator(zonedDataTimeSameInstant)
                         .isEqualTo(actual.getDue_date())
             )
-            .satisfies(e -> assertThat(e.getStatus()).as("check status").isEqualTo(actual.getStatus()))
             .satisfies(e -> assertThat(e.getPriority()).as("check priority").isEqualTo(actual.getPriority()))
             .satisfies(e -> assertThat(e.getDescription()).as("check description").isEqualTo(actual.getDescription()))
             .satisfies(e -> assertThat(e.getReminder()).as("check reminder").isEqualTo(actual.getReminder()));
