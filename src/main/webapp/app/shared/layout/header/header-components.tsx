@@ -14,7 +14,7 @@ export const Brand = () => (
   <NavbarBrand tag={Link} to="/" className="brand-logo">
     <BrandIcon />
     <span className="brand-title">ServoCRM</span>
-    <span className="navbar-version">{VERSION.toLowerCase().startsWith('crm') ? VERSION : `crm${VERSION}`}</span>
+    {/* <span className="navbar-version">{VERSION.toLowerCase().startsWith('crm') ? VERSION : `crm${VERSION}`}</span> */}
   </NavbarBrand>
 );
 

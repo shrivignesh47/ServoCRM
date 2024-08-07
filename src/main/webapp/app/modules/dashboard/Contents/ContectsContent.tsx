@@ -34,10 +34,92 @@
 //   );
 // };
 
+// // export default ContactsContents;
+// import React, { useState } from 'react';
+// import { Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField, Box } from '@mui/material';
+// import '../Contents/scss/ContactContents.scss'
+
+// interface Contact {
+//   id: string;
+//   first_name: string;
+//   last_name: string;
+//   email: string;
+//   phone: string;
+//   account_name:string;
+//   lead_source:string;
+// }
+
+// interface ContactContentsProps {
+//   contacts: Contact[];
+//   loading: boolean;
+//   error: string | null;
+//   collapsed: boolean; 
+// }
+
+// const ContactsContents: React.FC<ContactContentsProps> = ({ contacts, loading, error,collapsed }) => {
+//   const [filter, setFilter] = useState('');
+
+//   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//     setFilter(event.target.value);
+//   };
+
+//   const filteredContacts = contacts.filter(contact =>
+//     contact.email.toLowerCase().includes(filter.toLowerCase()) ||
+//     contact.first_name.toLowerCase().includes(filter.toLowerCase()) ||
+//     contact.last_name.toLowerCase().includes(filter.toLowerCase()) ||
+//     contact.phone.toString().includes(filter.toString())
+//   );
+
+//   return (
+//     <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
+//     <div className={`content ${collapsed ? 'collapsed' : ''}`}>
+//         <Typography variant="h4">Contacts</Typography>
+//         <Box className="content-body">
+//           <Box className="contacts-list">
+//             <div className="filter-container">
+//               <TextField
+//                 className="filter-input"
+//                 label="Filter Contacts"
+//                 variant="outlined"
+//                 value={filter}
+//                 onChange={handleFilterChange}
+//               />
+//             </div>
+
+//             {loading && <CircularProgress />}
+//             {error && <Alert severity="error">{error}</Alert>}
+//             {filteredContacts.length > 0 ? (
+//               <Grid container spacing={5}>
+//                 {filteredContacts.map(contact => (
+//                   <Grid item xs={12} md={6} lg={4} key={contact.id}>
+//                     <Card className="contact-card">
+//                       <CardContent>
+//                         <Typography variant="h6">{contact.first_name} {contact.last_name}</Typography>
+//                         <Typography variant="body2">Email: {contact.email}</Typography>
+//                         <Typography variant="body2">Phone: {contact.phone}</Typography> 
+//                         <Typography variant="body2">Account Name: {contact.account_name}</Typography> 
+//                         <Typography variant="body2">Lead Source: {contact.lead_source}</Typography> 
+//                       </CardContent>
+//                     </Card>
+//                   </Grid>
+//                 ))}
+//               </Grid>
+//             ) : (
+//               <Typography>No contacts available.</Typography>
+//             )}
+//           </Box>
+//         </Box>
+//       </div>
+//     </div>
+//   );
+// };
+
 // export default ContactsContents;
 import React, { useState } from 'react';
-import { Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField, Box } from '@mui/material';
-import './scss/ContactContents.scss';
+import { Link } from "react-router-dom";
+import { Card, CardContent, Typography, CircularProgress, Alert, Grid, TextField } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './scss/ContactContents.scss'
 
 interface Contact {
   id: string;
@@ -53,9 +135,10 @@ interface ContactContentsProps {
   contacts: Contact[];
   loading: boolean;
   error: string | null;
+  collapsed: boolean; 
 }
 
-const ContactsContents: React.FC<ContactContentsProps> = ({ contacts, loading, error }) => {
+const ContactContents: React.FC<ContactContentsProps> = ({ contacts, loading, error, collapsed }) => {
   const [filter, setFilter] = useState('');
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,47 +153,47 @@ const ContactsContents: React.FC<ContactContentsProps> = ({ contacts, loading, e
   );
 
   return (
-    <div className="main-content">
-      <div className="content">
+    <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
+      <div className={`content ${collapsed ? 'collapsed' : ''}`}>
         <Typography variant="h4">Contacts</Typography>
-        <Box className="content-body">
-          <Box className="contacts-list">
-            <div className="filter-container">
-              <TextField
-                className="filter-input"
-                label="Filter Contacts"
-                variant="outlined"
-                value={filter}
-                onChange={handleFilterChange}
-              />
-            </div>
+        <div className="filter-container">
+          <TextField
+            className="filter-input"
+            label="Filter Contacts"
+            variant="outlined"
+            value={filter}
+            onChange={handleFilterChange}
+          />
+        </div>
 
-            {loading && <CircularProgress />}
-            {error && <Alert severity="error">{error}</Alert>}
-            {filteredContacts.length > 0 ? (
-              <Grid container spacing={5}>
-                {filteredContacts.map(contact => (
-                  <Grid item xs={12} md={6} lg={4} key={contact.id}>
-                    <Card className="contact-card">
-                      <CardContent>
+        {loading && <CircularProgress />}
+        {error && <Alert severity="error">{error}</Alert>}
+        {filteredContacts.length > 0 ? (
+          <Grid container spacing={5}>
+            {filteredContacts.map((contact) => (
+              <Grid item xs={12} md={6} lg={4} key={contact.id}>
+                <Card className="contact-card">
+                <CardContent className='card-content'>
                         <Typography variant="h6">{contact.first_name} {contact.last_name}</Typography>
-                        <Typography variant="body2">Email: {contact.email}</Typography>
-                        <Typography variant="body2">Phone: {contact.phone}</Typography> 
-                        <Typography variant="body2">Account Name: {contact.account_name}</Typography> 
-                        <Typography variant="body2">Lead Source: {contact.lead_source}</Typography> 
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
+                         <Typography variant="body2">Email: {contact.email}</Typography>
+                         <Typography variant="body2">Phone: {contact.phone}</Typography> 
+                         <Typography variant="body2">Account Name: {contact.account_name}</Typography> 
+                         <Typography variant="body2">Lead Source: {contact.lead_source}</Typography> 
+                    <Link to="/contacts/new" className="create-contact-button">
+                      <FontAwesomeIcon icon="plus" />
+                      &nbsp; Create a new Contact
+                    </Link>
+                       </CardContent>
+                </Card>
               </Grid>
-            ) : (
-              <Typography>No contacts available.</Typography>
-            )}
-          </Box>
-        </Box>
+            ))}
+          </Grid>
+        ) : (
+          <Typography>No contacts available.</Typography>
+        )}
       </div>
     </div>
   );
 };
 
-export default ContactsContents;
+export default ContactContents;

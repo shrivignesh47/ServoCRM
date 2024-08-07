@@ -830,17 +830,17 @@ const Dashboard: React.FC = () => {
       case 'leads':
         return <LeadsContents leads={leads} loading={loading} error={error} collapsed={collapsed} />;
       case 'contacts':
-        return <ContactsContents contacts={contacts} loading={loading} error={error} />;
+        return <ContactsContents contacts={contacts} loading={loading} error={error}  collapsed={collapsed} />;
       case 'accounts':
-        return <AccountsContents accounts={accounts} loading={loading} error={error} />;
+        return <AccountsContents accounts={accounts} loading={loading} error={error}  collapsed={collapsed} />;
       case 'tasks':
-        return <TasksContents tasks={tasks} loading={loading} error={error} />;
+        return <TasksContents tasks={tasks} loading={loading} error={error}  />;
       case 'deals':
-        return <DealsContents deals={deals} loading={loading} error={error} />;
+        return <DealsContents deals={deals} loading={loading} error={error}   />;
       case 'meetings':
-        return <MeetingsContents meetings={meetings} loading={loading} error={error} />;
+        return <MeetingsContents meetings={meetings} loading={loading} error={error}  />;
       case 'tickets':
-        return <TicketsContents tickets={tickets} loading={loading} error={error} />;
+        return <TicketsContents tickets={tickets} loading={loading} error={error}   />;
       default:
         return renderDashboard();
     }
