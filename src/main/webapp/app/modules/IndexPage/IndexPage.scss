@@ -1,0 +1,47 @@
+.page-container-unique {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .header-unique {
+    background-color: #333;
+    padding: 10px 0;
+  
+    .navbar-unique {
+      display: flex;
+      justify-content: center;
+  
+      .nav-links-unique {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+  
+        li {
+          a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+  
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .main-content-unique {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .footer-unique {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
+  

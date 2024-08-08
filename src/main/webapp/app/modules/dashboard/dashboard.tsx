@@ -359,329 +359,37 @@
 // };
 
 // export default Dashboard;
-// // src/components/DashboardPage.tsx
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import Sidebar from '../../shared/layout/Sidebar/Sidebar';
-// import Dashboard from './Contents/DashboardContent';
-// import Leads from './Contents/LeadContents';
-// import Contacts from './Contents/ContectsContent';
-// import Accounts from './Contents/AccountsContents';
-// import Tasks from './Contents/TaskContents';
-// import Deals from './Contents/DealsContents';
-// import Meetings from './Contents/MeetingsContents';
-// import Tickets from './Contents/TicketsContents';
-// import { Lead, Contact, Account, Task, Deal, Meeting, Ticket } from './Types/types';
-// import { CircularProgress, Alert } from '@mui/material';
 
-// const DashboardPage: React.FC = () => {
-//   const [leads, setLeads] = useState<Lead[]>([]);
-//   const [contacts, setContacts] = useState<Contact[]>([]);
-//   const [accounts, setAccounts] = useState<Account[]>([]);
-//   const [tasks, setTasks] = useState<Task[]>([]);
-//   const [deals, setDeals] = useState<Deal[]>([]);
-//   const [meetings, setMeetings] = useState<Meeting[]>([]);
-//   const [tickets, setTickets] = useState<Ticket[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
-//   const [selectedMenu, setSelectedMenu] = useState('dashboard');
-//   const [collapsed, setCollapsed] = useState(false);
-//   const [crmOpen, setCrmOpen] = useState(false);
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const [leadsResponse, contactsResponse, accountsResponse, tasksResponse, dealsResponse, meetingsResponse, ticketsResponse] = await Promise.all([
-//           axios.get<Lead[]>('/api/leads'),
-//           axios.get<Contact[]>('/api/contacts'),
-//           axios.get<Account[]>('/api/accounts'),
-//           axios.get<Task[]>('/api/tasks'),
-//           axios.get<Deal[]>('/api/deals'),
-//           axios.get<Meeting[]>('/api/meetings'),
-//           axios.get<Ticket[]>('/api/tickets'),
-//         ]);
-//         setLeads(leadsResponse.data);
-//         setContacts(contactsResponse.data);
-//         setAccounts(accountsResponse.data);
-//         setTasks(tasksResponse.data);
-//         setDeals(dealsResponse.data);
-//         setMeetings(meetingsResponse.data);
-//         setTickets(ticketsResponse.data);
-//       } catch (err) {
-//         setError('Error fetching data');
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
 
-//     fetchData();
-//   }, []);
 
-//   const toggleSidebar = () => {
-//     setCollapsed(!collapsed);
-//   };
-
-//   const toggleCrmMenu = () => {
-//     setCrmOpen(!crmOpen);
-//   };
-
-//   const renderContent = () => {
-//     switch (selectedMenu) {
-//       case 'dashboard':
-//         const totalLeads = leads.length;
-//         const newLeadsCount = leads.filter(lead => lead.lead_status === 'New').length;
-//         const closedLeadsCount = leads.filter(lead => lead.lead_status === 'Closed').length;
-//         const totalContacts = contacts.length;
-//         const totalAccounts = accounts.length;
-
-//         return (
-//           <Dashboard
-//             leadsCount={totalLeads}
-//             newLeadsCount={newLeadsCount}
-//             closedLeadsCount={closedLeadsCount}
-//             contactsCount={totalContacts}
-//             accountsCount={totalAccounts}
-//           />
-//         );
-//       case 'leads':
-//         return <Leads leads={leads} />;
-//       case 'contacts':
-//         return <Contacts contacts={contacts} />;
-//       case 'accounts':
-//         return <Accounts accounts={accounts} />;
-//       case 'tasks':
-//         return <Tasks tasks={tasks} />;
-//       case 'deals':
-//         return <Deals deals={deals} />;
-//       case 'meetings':
-//         return <Meetings meetings={meetings} />;
-//       case 'tickets':
-//         return <Tickets tickets={tickets} />;
-//       default:
-//         return <Dashboard
-//           leadsCount={leads.length}
-//           newLeadsCount={leads.filter(lead => lead.lead_status === 'New').length}
-//           closedLeadsCount={leads.filter(lead => lead.lead_status === 'Closed').length}
-//           contactsCount={contacts.length}
-//           accountsCount={accounts.length}
-//         />;
-//     }
-//   };
-
-//   return (
-//     <div className="dashboard">
-//       <Sidebar
-//         collapsed={collapsed}
-//         toggleSidebar={toggleSidebar}
-//         crmOpen={crmOpen}
-//         toggleCrmMenu={toggleCrmMenu}
-//         setSelectedMenu={setSelectedMenu}
-//       />
-//       <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
-//         {loading && <CircularProgress />}
-//         {error && <Alert severity="error">{error}</Alert>}
-//         {renderContent()}
-//       </div>
-//     </div>
-//   );
-// };
-
-// // export default DashboardPage;
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { Card, CardContent, Typography, CircularProgress, Alert, Grid } from '@mui/material';
-// import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
-// import Sidebar from '../../shared/layout/Sidebar/Sidebar';
-// import LeadsContents from './Contents/LeadContents';
-// import ContactsContents from './Contents/ContectsContent';
-// import AccountsContents from './Contents/AccountsContents';
-// import TasksContents from './Contents/TaskContents';
-// import DealsContents from './Contents/DealsContents';
-// import MeetingsContents from './Contents/MeetingsContents';
-// import TicketsContents from './Contents/TicketsContents';
-// import './dashboard.scss';
-
-// const Dashboard: React.FC = () => {
-//   const [leads, setLeads] = useState<any[]>([]);
-//   const [contacts, setContacts] = useState<any[]>([]);
-//   const [accounts, setAccounts] = useState<any[]>([]);
-//   const [tasks, setTasks] = useState<any[]>([]);
-//   const [deals, setDeals] = useState<any[]>([]);
-//   const [meetings, setMeetings] = useState<any[]>([]);
-//   const [tickets, setTickets] = useState<any[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState<string | null>(null);
-//   const [selectedMenu, setSelectedMenu] = useState('dashboard');
-//   const [collapsed, setCollapsed] = useState(false);
-//   const [crmOpen, setCrmOpen] = useState(false);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const [leadsResponse, contactsResponse, accountsResponse, tasksResponse, dealsResponse, meetingsResponse, ticketsResponse] = await Promise.all([
-//           axios.get('/api/leads'),
-//           axios.get('/api/contacts'),
-//           axios.get('/api/accounts'),
-//           axios.get('/api/tasks'),
-//           axios.get('/api/deals'),
-//           axios.get('/api/meetings'),
-//           axios.get('/api/tickets'),
-//         ]);
-//         setLeads(leadsResponse.data);
-//         setContacts(contactsResponse.data);
-//         setAccounts(accountsResponse.data);
-//         setTasks(tasksResponse.data);
-//         setDeals(dealsResponse.data);
-//         setMeetings(meetingsResponse.data);
-//         setTickets(ticketsResponse.data);
-//       } catch (err) {
-//         setError('Error fetching data');
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   const toggleSidebar = () => {
-//     setCollapsed(!collapsed);
-//   };
-
-//   const toggleCrmMenu = () => {
-//     setCrmOpen(!crmOpen);
-//   };
-
-//   const renderDashboard = () => {
-//     const totalLeads = leads.length;
-//     const newLeadsCount = leads.filter(lead => lead.lead_status === 'New').length;
-//     const closedLeadsCount = leads.filter(lead => lead.lead_status === 'Closed').length;
-//     const totalContacts = contacts.length;
-//     const totalAccounts = accounts.length;
-
-//     const pieData = [
-//       { name: 'Leads', value: totalLeads },
-//       { name: 'Contacts', value: totalContacts },
-//       { name: 'Accounts', value: totalAccounts },
-//     ];
-
-//     const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
-
-//     const barData = [
-//       { name: 'New Leads', count: newLeadsCount },
-//       { name: 'Closed Leads', count: closedLeadsCount },
-//       { name: 'Total Contacts', count: totalContacts },
-//       { name: 'Total Accounts', count: totalAccounts },
-//     ];
-
-//     return (
-//       <div className={`content ${collapsed ? 'collapsed' : ''}`}>
-//         <Typography variant="h4">Dashboard</Typography>
-//         <p>Welcome to your dashboard</p>
-
-//         {loading && <CircularProgress />}
-//         {error && <Alert severity="error">{error}</Alert>}
-
-//         {!loading && (
-//           <Grid container spacing={3}>
-//             <Grid item xs={12} md={6}>
-//               <Card>
-//                 <CardContent>
-//                   <Typography variant="h6">Overview</Typography>
-//                   <PieChart width={400} height={400}>
-//                     <Pie
-//                       data={pieData}
-//                       cx={200}
-//                       cy={200}
-//                       labelLine={false}
-//                       label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-//                       outerRadius={80}
-//                       fill="#8884d8"
-//                       dataKey="value"
-//                     >
-//                       {pieData.map((entry, index) => (
-//                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-//                       ))}
-//                     </Pie>
-//                     <Tooltip />
-//                   </PieChart>
-//                 </CardContent>
-//               </Card>
-//             </Grid>
-
-//             <Grid item xs={12} md={6}>
-//               <Card>
-//                 <CardContent>
-//                   <Typography variant="h6">Lead Status</Typography>
-//                   <BarChart
-//                     width={500}
-//                     height={300}
-//                     data={barData}
-//                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-//                   >
-//                     <CartesianGrid strokeDasharray="3 3" />
-//                     <XAxis dataKey="name" />
-//                     <YAxis />
-//                     <Tooltip />
-//                     <Legend />
-//                     <Bar dataKey="count" fill="#8884d8" />
-//                   </BarChart>
-//                 </CardContent>
-//               </Card>
-//             </Grid>
-//           </Grid>
-//         )}
-//       </div>
-//     );
-//   };
-
-//   const renderContent = () => {
-//     switch (selectedMenu) {
-//       case 'dashboard':
-//         return renderDashboard();
-//       case 'leads':
-//         return <LeadsContents leads={leads} loading={loading} error={error} collapsed={false} />;
-//       case 'contacts':
-//         return <ContactsContents contacts={contacts} loading={loading} error={error} />;
-//       case 'accounts':
-//         return <AccountsContents accounts={accounts} loading={loading} error={error} />;
-//       case 'tasks':
-//         return <TasksContents tasks={tasks} loading={loading} error={error} />;
-//       case 'deals':
-//         return <DealsContents deals={deals} loading={loading} error={error} />;
-//       case 'meetings':
-//         return <MeetingsContents meetings={meetings} loading={loading} error={error} />;
-//       case 'tickets':
-//         return <TicketsContents tickets={tickets} loading={loading} error={error} />;
-//       default:
-//         return renderDashboard();
-//     }
-//   };
-
-//   return (
-//     <div className="dashboard">
-//       <Sidebar  
-//         collapsed={collapsed}
-//         toggleSidebar={toggleSidebar}
-//         crmOpen={crmOpen}
-//         toggleCrmMenu={toggleCrmMenu}
-//         setSelectedMenu={setSelectedMenu}
-//       />
-//       <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
-//         {renderContent()}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, CardContent, Typography, CircularProgress, Alert, Grid } from '@mui/material';
-import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import {
+  Card,
+  CardContent,
+  Typography,
+  CircularProgress,
+  Alert,
+  Grid,
+} from '@mui/material';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+} from 'recharts';
 import Sidebar from '../../shared/layout/Sidebar/Sidebar';
 import LeadsContents from './Contents/LeadContents';
-import ContactsContents from './Contents/ContectsContent';
+import ContactsContents from './Contents/ContactsContents';
 import AccountsContents from './Contents/AccountsContents';
 import TasksContents from './Contents/TaskContents';
 import DealsContents from './Contents/DealsContents';
@@ -706,7 +414,15 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [leadsResponse, contactsResponse, accountsResponse, tasksResponse, dealsResponse, meetingsResponse, ticketsResponse] = await Promise.all([
+        const [
+          leadsResponse,
+          contactsResponse,
+          accountsResponse,
+          tasksResponse,
+          dealsResponse,
+          meetingsResponse,
+          ticketsResponse,
+        ] = await Promise.all([
           axios.get('/api/leads'),
           axios.get('/api/contacts'),
           axios.get('/api/accounts'),
@@ -733,20 +449,70 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const toggleSidebar = () => {
-    setCollapsed(prevCollapsed => !prevCollapsed);
+    setCollapsed((prevCollapsed) => !prevCollapsed);
   };
 
   const toggleCrmMenu = () => {
-    setCrmOpen(prevCrmOpen => !prevCrmOpen);
+    setCrmOpen((prevCrmOpen) => !prevCrmOpen);
+  };
+
+  // Convert meeting data to a format suitable for the line chart
+  const getMeetingDataForChart = () => {
+    const meetingsData = meetings.map((meeting) => {
+      const dateTime = new Date(meeting.from);
+      const month = dateTime.toLocaleString('default', { month: 'short' });
+      const year = dateTime.getFullYear();
+      return {
+        date: `${month} ${year}`, // e.g., "Aug 2024"
+        count: 1,
+      };
+    });
+
+    const aggregatedData: { [key: string]: { date: string; count: number } } = {};
+
+    meetingsData.forEach(({ date, count }) => {
+      if (!aggregatedData[date]) {
+        aggregatedData[date] = { date, count };
+      } else {
+        aggregatedData[date].count += count;
+      }
+    });
+
+    // Sort by date
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return Object.values(aggregatedData).sort((a, b) => {
+      const [monthA, yearA] = a.date.split(' ');
+      const [monthB, yearB] = b.date.split(' ');
+
+      // Convert yearA and yearB to numbers
+      const yearAInt = parseInt(yearA, 10);
+      const yearBInt = parseInt(yearB, 10);
+
+      return (yearAInt - yearBInt) * 12 + (months.indexOf(monthA) - months.indexOf(monthB));
+    });
   };
 
   const renderDashboard = () => {
+    // Calculate totals and breakdowns
     const totalLeads = leads.length;
-    const newLeadsCount = leads.filter(lead => lead.lead_status === 'New').length;
-    const closedLeadsCount = leads.filter(lead => lead.lead_status === 'Closed').length;
+    const newLeadsCount = leads.filter((lead) => lead.lead_status === 'New').length;
+    const closedLeadsCount = leads.filter((lead) => lead.lead_status === 'Closed').length;
+
     const totalContacts = contacts.length;
     const totalAccounts = accounts.length;
+    const upcomingMeetings = meetings.filter((meeting) => new Date(meeting.from) > new Date()).length;
 
+    const completedTasks = tasks.filter((task) => task.priority === 'HIGH').length;
+    const pendingTasks = tasks.filter((task) => task.priority === 'HIGHEST').length;
+    const lowestTasks = tasks.filter((task) => task.priority === 'LOWEST').length;
+
+    const wonDeals = deals.filter((deal) => deal.stage === 'QUALIFICATION').length;
+    const lostDeals = deals.filter((deal) => deal.stage === 'CLOSED_LOST').length;
+
+    const ticketOpen = tickets.filter((ticket) => ticket.status === 'OPEN').length;
+    const ticketClosed = tickets.filter((ticket) => ticket.status === 'CLOSED').length;
+
+    // Data for charts
     const pieData = [
       { name: 'Leads', value: totalLeads },
       { name: 'Contacts', value: totalContacts },
@@ -760,6 +526,30 @@ const Dashboard: React.FC = () => {
       { name: 'Closed Leads', count: closedLeadsCount },
       { name: 'Total Contacts', count: totalContacts },
       { name: 'Total Accounts', count: totalAccounts },
+      { name: 'Upcoming Meetings', count: upcomingMeetings },
+      { name: 'High Priority', count: completedTasks },
+      { name: 'Highest Priority', count: pendingTasks },
+      { name: 'Lowest Priority', count: lowestTasks },
+      { name: 'Won Deals', count: wonDeals },
+      { name: 'Lost Deals', count: lostDeals },
+      { name: 'Open Tickets', count: ticketOpen },
+      { name: 'Closed Tickets', count: ticketClosed },
+    ];
+
+    const taskStatusData = [
+      { name: 'High Priority', count: completedTasks },
+      { name: 'Highest Priority', count: pendingTasks },
+      { name: 'Lowest Priority', count: lowestTasks },
+    ];
+
+    const dealStatusData = [
+      { name: 'QUALIFICATION', count: wonDeals },
+      { name: 'CLOSED_LOST', count: lostDeals },
+    ];
+
+    const ticketStatusData = [
+      { name: 'Open', count: ticketOpen },
+      { name: 'Escalated', count: ticketClosed },
     ];
 
     return (
@@ -770,9 +560,28 @@ const Dashboard: React.FC = () => {
         {loading && <CircularProgress />}
         {error && <Alert severity="error">{error}</Alert>}
 
+        {/* Summary Section */}
+        {!loading && !error && (
+          <div className="summary-section">
+            <div className="summary-card">
+              <Typography variant="h6">Total Leads</Typography>
+              <Typography variant="h4">{totalLeads}</Typography>
+            </div>
+            <div className="summary-card">
+              <Typography variant="h6">Total Tasks</Typography>
+              <Typography variant="h4">{tasks.length}</Typography>
+            </div>
+            <div className="summary-card">
+              <Typography variant="h6">Total Deals</Typography>
+              <Typography variant="h4">{deals.length}</Typography>
+            </div>
+          </div>
+        )}
+
         {!loading && (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+            {/* Overview Pie Chart */}
+            <Grid item xs={12} md={6} lg={4}>
               <Card>
                 <CardContent>
                   <Typography variant="h6">Overview</Typography>
@@ -797,12 +606,13 @@ const Dashboard: React.FC = () => {
               </Card>
             </Grid>
 
-            <Grid item xs={12} md={6}>
+            {/* Bar Chart for Data Breakdown */}
+            <Grid item xs={12} md={6} lg={8}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6">Lead Status</Typography>
+                  <Typography variant="h6">Data Breakdown</Typography>
                   <BarChart
-                    width={500}
+                    width={700}
                     height={300}
                     data={barData}
                     margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -814,6 +624,106 @@ const Dashboard: React.FC = () => {
                     <Legend />
                     <Bar dataKey="count" fill="#8884d8" />
                   </BarChart>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Meetings Line Chart */}
+            <Grid item xs={12} md={6} lg={8}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">Meeting Activity</Typography>
+                  <LineChart
+                    width={700}
+                    height={300}
+                    data={getMeetingDataForChart()}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" tickFormatter={(tick) => new Date(tick).toLocaleDateString()} />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="count" stroke="#8884d8" dot={false} />
+                  </LineChart>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Task Status Pie Chart */}
+            <Grid item xs={12} md={6} lg={4}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">Task Status</Typography>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={taskStatusData}
+                      cx={200}
+                      cy={200}
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="count"
+                    >
+                      {taskStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Deal Status Pie Chart */}
+            <Grid item xs={12} md={6} lg={4}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">Deal Status</Typography>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={dealStatusData}
+                      cx={200}
+                      cy={200}
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="count"
+                    >
+                      {dealStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Ticket Status Pie Chart */}
+            <Grid item xs={12} md={6} lg={4}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">Ticket Status</Typography>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={ticketStatusData}
+                      cx={200}
+                      cy={200}
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#00C49F"
+                      dataKey="count"
+                    >
+                      {ticketStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
                 </CardContent>
               </Card>
             </Grid>
@@ -830,17 +740,17 @@ const Dashboard: React.FC = () => {
       case 'leads':
         return <LeadsContents leads={leads} loading={loading} error={error} collapsed={collapsed} />;
       case 'contacts':
-        return <ContactsContents contacts={contacts} loading={loading} error={error}  collapsed={collapsed} />;
+        return <ContactsContents contacts={contacts} loading={loading} error={error} collapsed={collapsed} />;
       case 'accounts':
-        return <AccountsContents accounts={accounts} loading={loading} error={error}  collapsed={collapsed} />;
+        return <AccountsContents accounts={accounts} loading={loading} error={error} collapsed={collapsed} />;
       case 'tasks':
-        return <TasksContents tasks={tasks} loading={loading} error={error}  />;
+        return <TasksContents tasks={tasks} loading={loading} error={error} collapsed={collapsed} />;
       case 'deals':
-        return <DealsContents deals={deals} loading={loading} error={error}   />;
+        return <DealsContents deals={deals} loading={loading} error={error} collapsed={collapsed} />;
       case 'meetings':
-        return <MeetingsContents meetings={meetings} loading={loading} error={error}  />;
+        return <MeetingsContents meetings={meetings} loading={loading} error={error} collapsed={collapsed} />;
       case 'tickets':
-        return <TicketsContents tickets={tickets} loading={loading} error={error}   />;
+        return <TicketsContents tickets={tickets} loading={loading} error={error} collapsed={collapsed} />;
       default:
         return renderDashboard();
     }
@@ -848,7 +758,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard">
-      <Sidebar  
+      <Sidebar
         collapsed={collapsed}
         toggleSidebar={toggleSidebar}
         crmOpen={crmOpen}

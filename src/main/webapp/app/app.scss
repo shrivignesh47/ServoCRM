@@ -361,3 +361,10 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 .content.collapsed {
   margin-left: 80px; /* Adjusted margin for collapsed sidebar */
 }
+.fixed-top {
+  position: fixed;
+  top: -20px;
+  right: 0px;
+  left: 0;
+  z-index: 1030;
+}

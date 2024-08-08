@@ -1,114 +1,173 @@
-.content {
-    padding: 20px;
+// .content {
+//     padding: 20px;
   
-    .contact-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+//     .contact-card {
+//       transition: transform 0.3s ease, box-shadow 0.3s ease;
   
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+//       &:hover {
+//         transform: translateY(-5px);
+//         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+//       }
+  
+//       .card-content {
+//         .contact-info {
+//           margin-bottom: 10px;
+//           font-size: 0.9rem;
+//           color: #555;
+  
+//           strong {
+//             color: #333;
+//           }
+//         }
+  
+//         .create-contact-button {
+//           display: inline-block;
+//           margin-top: 15px;
+//           padding: 10px 15px;
+//           background-color: #007bff;
+//           color: #fff;
+//           text-align: center;
+//           text-decoration: none;
+//           border-radius: 5px;
+//           transition: background-color 0.3s ease;
+  
+//           &:hover {
+//             background-color: #0056b3;
+//           }
+//         }
+//       }
+//     }
+  
+//     .filter-container {
+//       display: flex;
+//       justify-content: space-between;
+//       margin-bottom: 20px;
+  
+//       .filter-input {
+//         padding: 10px;
+//         width: 100%;
+//         max-width: 300px;
+//         border: 1px solid #ddd;
+//         border-radius: 5px;
+//       }
+//     }
+//   }
+  
+//   .content {
+//       padding: 20px;
+//       transition: margin-left 0.3s ease; // Smooth transition for collapsing effect
+    
+//       &.collapsed {
+//         margin-left: 60px; // Adjust this value according to the collapsed sidebar width
+//       }
+    
+//       .contact-card {
+//         transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+//         &:hover {
+//           transform: translateY(-5px);
+//           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+//         }
+    
+//         .card-content {
+//           .contact-info {
+//             margin-bottom: 10px;
+//             font-size: 0.9rem;
+//             color: #555;
+    
+//             strong {
+//               color: #333;
+//             }
+//           }
+    
+//           .create-contact-button {
+//             display: inline-block;
+//             margin-top: 15px;
+//             padding: 10px 15px;
+//             background-color: #007bff;
+//             color: #fff;
+//             text-align: center;
+//             text-decoration: none;
+//             border-radius: 5px;
+//             transition: background-color 0.3s ease;
+    
+//             &:hover {
+//               background-color: #0056b3;
+//             }
+//           }
+//         }
+//       }
+    
+//       .filter-container {
+//         display: flex;
+//         justify-content: space-between;
+//         margin-bottom: 20px;
+    
+//         .filter-input {
+//           padding: 10px;
+//           width: 100%;
+//           max-width: 300px;
+//           border: 1px solid #ddd;
+//           border-radius: 5px;
+//         }
+//       }
+//     }
+
+.main-content {
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+  
+      &.collapsed {
+        margin-left:80px; // Adjust this value according to the collapsed sidebar width
       }
   
-      .card-content {
-        .contact-info {
-          margin-bottom: 10px;
-          font-size: 0.9rem;
-          color: #555;
+      .Top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
   
-          strong {
-            color: #333;
-          }
+      .filter-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+  
+        .filter-select, .filter-input {
+          width: 200px;
         }
+      }
   
-        .create-contact-button {
-          display: inline-block;
-          margin-top: 15px;
-          padding: 10px 15px;
-          background-color: #007bff;
-          color: #fff;
-          text-align: center;
-          text-decoration: none;
-          border-radius: 5px;
-          transition: background-color 0.3s ease;
+      .create-contact-button {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #1976d2;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 16px;
   
-          &:hover {
-            background-color: #0056b3;
-          }
+        &:hover {
+          background-color: #1565c0;
         }
       }
     }
   
-    .filter-container {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
+    .contact-card {
+      cursor: pointer;
+      transition: transform 0.2s;
   
-      .filter-input {
-        padding: 10px;
-        width: 100%;
-        max-width: 300px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+      &:hover {
+        transform: scale(1.02);
+      }
+  
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
     }
   }
   
-  .content {
-      padding: 20px;
-      transition: margin-left 0.3s ease; // Smooth transition for collapsing effect
-    
-      &.collapsed {
-        margin-left: 60px; // Adjust this value according to the collapsed sidebar width
-      }
-    
-      .contact-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-        &:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-    
-        .card-content {
-          .contact-info {
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: #555;
-    
-            strong {
-              color: #333;
-            }
-          }
-    
-          .create-contact-button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-    
-            &:hover {
-              background-color: #0056b3;
-            }
-          }
-        }
-      }
-    
-      .filter-container {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    
-        .filter-input {
-          padding: 10px;
-          width: 100%;
-          max-width: 300px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-        }
-      }
-    }
