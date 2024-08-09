@@ -585,11 +585,11 @@ const Dashboard: React.FC = () => {
               <Card>
                 <CardContent>
                   <Typography variant="h6">Overview</Typography>
-                  <PieChart width={400} height={400}>
+                  <PieChart width={400} height={300}>
                     <Pie
                       data={pieData}
                       cx={200}
-                      cy={200}
+                      cy={150}
                       labelLine={false}
                       label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       outerRadius={80}
@@ -655,7 +655,7 @@ const Dashboard: React.FC = () => {
               <Card>
                 <CardContent>
                   <Typography variant="h6">Task Status</Typography>
-                  <PieChart width={400} height={400}>
+                  <PieChart width={400} height={300}>
                     <Pie
                       data={taskStatusData}
                       cx={200}
