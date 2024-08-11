@@ -60,7 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, toggleSidebar, crmOpen, to
             </Nav.Link>
           </Nav>
         )}
-        <Nav.Link className="nav-item">
+        <Nav.Link onClick={() => setSelectedMenu('Marketing')} className="nav-item">
           <FontAwesomeIcon icon={faBullhorn} />
           <span className="nav-text">Marketing</span>
         </Nav.Link>

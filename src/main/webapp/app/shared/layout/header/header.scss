@@ -1,6 +1,6 @@
 $header-color: #fff;
 $header-color-secondary: #bbb;
-$header-color-hover: darken($header-color, 20%);
+$header-color-hover: darken($header-color, 90%);
 
 /* ==========================================================================
 Development Ribbon
@@ -78,8 +78,13 @@ Navbar styles
 
 .loading-bar {
   height: 3px;
-  background-color: #009cd8;
+  background-color: #323645;
   position: absolute;
   top: 0px;
   z-index: 1031;
+}
+
+
+.Navbar-color{
+  background-color: #162c46;
 }

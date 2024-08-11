@@ -90,7 +90,7 @@
       <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
         <div className={`content ${collapsed ? 'collapsed' : ''}`}>
           <div className="top-bar">
-            <Typography variant="h4">Meetings</Typography>
+            <Typography variant="h4" color="#d3e3fdb3">Meetings</Typography>
             <Link to="/meeting/new" className="create-meeting-button">
               Create a new Meeting
             </Link>
@@ -127,14 +127,14 @@
                 <Grid container spacing={3}>
                   {filteredMeetings.map(meeting => (
                     <Grid item xs={12} md={6} lg={4} key={meeting.id}>
-                      <Card className="meeting-card">
+                      <Card className="meeting-card" style={{backgroundColor:'#162c46'}}>
                         <CardContent>
-                          <Typography variant="h6">{meeting.title}</Typography>
-                          <Typography className="meeting-info"><strong>Location:</strong> {meeting.location || 'N/A'}</Typography>
-                          <Typography className="meeting-info"><strong>Location Offline Detail:</strong> {meeting.location_Offline_Detail || 'N/A'}</Typography>
-                          <Typography className="meeting-info"><strong>From:</strong> {meeting.from ? new Date(meeting.from).toLocaleDateString() : 'N/A'}</Typography>
-                          <Typography className="meeting-info"><strong>To:</strong> {meeting.to ? new Date(meeting.to).toLocaleDateString() : 'N/A'}</Typography>
-                          <Typography className="meeting-info"><strong>User:</strong> {meeting.user ? meeting.user.login : 'N/A'}</Typography>
+                          <Typography variant="h6" color="#d3e3fdb3">{meeting.title}</Typography>
+                          <Typography className="meeting-info"color="#d3e3fdb3"><strong>Location:</strong> {meeting.location || 'N/A'}</Typography>
+                          <Typography className="meeting-info"color="#d3e3fdb3"><strong>Location Offline Detail:</strong> {meeting.location_Offline_Detail || 'N/A'}</Typography>
+                          <Typography className="meeting-info"color="#d3e3fdb3"><strong>From:</strong> {meeting.from ? new Date(meeting.from).toLocaleDateString() : 'N/A'}</Typography>
+                          <Typography className="meeting-info"color="#d3e3fdb3"><strong>To:</strong> {meeting.to ? new Date(meeting.to).toLocaleDateString() : 'N/A'}</Typography>
+                          <Typography className="meeting-info"color="#d3e3fdb3"><strong>User:</strong> {meeting.user ? meeting.user.login : 'N/A'}</Typography>
                         </CardContent>
                       </Card>
                     </Grid>

@@ -110,7 +110,7 @@ const TicketContents: React.FC<TicketContentsProps> = ({ tickets, loading, error
     <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
       <div className={`content ${collapsed ? 'collapsed' : ''}`}>
         <div className="top-bar">
-          <Typography variant="h4">Tickets</Typography>
+          <Typography variant="h4" color="#d3e3fdb3">Tickets</Typography>
           <Link to="/ticket/new" className="create-ticket-button">
             Create a new Ticket
           </Link>
@@ -155,22 +155,22 @@ const TicketContents: React.FC<TicketContentsProps> = ({ tickets, loading, error
               <Grid container spacing={3}>
                 {filteredTickets.map(ticket => (
                   <Grid item xs={12} md={6} lg={4} key={ticket.id}>
-                    <Card className="ticket-card">
+                    <Card className="ticket-card" style={{backgroundColor:'#162c46'}}>
                       <CardContent>
                         <Typography variant="h6">{ticket.issue}</Typography>
-                        <Typography className="ticket-info"><strong>Contact Name:</strong> {ticket.contact_name || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Account Name:</strong> {ticket.account_name || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Email:</strong> {ticket.email || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Phone:</strong> {ticket.phone || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Subject:</strong> {ticket.subject || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Description:</strong> {ticket.description || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Status:</strong> {ticket.status || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Product Name:</strong> {ticket.product_name || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Due Date:</strong> {ticket.due_date ? new Date(ticket.due_date).toLocaleDateString() : 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Language:</strong> {ticket.language || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Channel:</strong> {ticket.channel || 'N/A'}</Typography>
-                        <Typography className="ticket-info"><strong>Classifications:</strong> {ticket.classifications || 'N/A'}</Typography>
-                        <Typography className="ticket-info">
+                        <Typography className="ticket-info" color="#d3e3fdb3"><strong>Contact Name:</strong> {ticket.contact_name || 'N/A'}</Typography>
+                        <Typography className="ticket-info" color="#d3e3fdb3"><strong>Account Name:</strong> {ticket.account_name || 'N/A'}</Typography>
+                        <Typography className="ticket-info" color="#d3e3fdb3"><strong>Email:</strong> {ticket.email || 'N/A'}</Typography>
+                        <Typography className="ticket-info" color="#d3e3fdb3"><strong>Phone:</strong> {ticket.phone || 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Subject:</strong> {ticket.subject || 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Description:</strong> {ticket.description || 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Status:</strong> {ticket.status || 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Product Name:</strong> {ticket.product_name || 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Due Date:</strong> {ticket.due_date ? new Date(ticket.due_date).toLocaleDateString() : 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Language:</strong> {ticket.language || 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Channel:</strong> {ticket.channel || 'N/A'}</Typography>
+                        <Typography className="ticket-info"color="#d3e3fdb3"><strong>Classifications:</strong> {ticket.classifications || 'N/A'}</Typography>
+                        <Typography className="ticket-info" color="#d3e3fdb3">
                           <strong>Attachments:</strong>
                           {ticket.attachments ? (
                             <div>

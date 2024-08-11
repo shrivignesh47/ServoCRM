@@ -495,13 +495,13 @@ const AccountContents: React.FC<AccountContentsProps> = ({ accounts, loading, er
               <Grid container spacing={3}>
                 {filteredAccounts.map(account => (
                   <Grid item xs={12} md={6} lg={4} key={account.id}>
-                    <Card className="account-card" onClick={() => handleClickOpen(account)}>
-                      <CardContent>
+                    <Card className="account-card" onClick={() => handleClickOpen(account)} style={{backgroundColor:'#162c46'}}>
+                      <CardContent style={{backgroundColor:'#162c46'}}>
                         <Typography variant="h6">{account.name}</Typography>
-                        <Typography className="account-info"><strong>Account Owner:</strong> {account.account_owner}</Typography>
-                        <Typography className="account-info"><strong>Account Number:</strong> {account.account_number}</Typography>
-                        <Typography className="account-info"><strong>Employees:</strong> {account.employees}</Typography>
-                        <Typography className="account-info"><strong>Created User:</strong> {account.user?.login}</Typography>
+                        <Typography className="account-info" color="#d3e3fdb3"><strong>Account Owner:</strong> {account.account_owner}</Typography>
+                        <Typography className="account-info" color="#d3e3fdb3"><strong>Account Number:</strong> {account.account_number}</Typography>
+                        <Typography className="account-info" color="#d3e3fdb3"> <strong>Employees:</strong> {account.employees}</Typography>
+                        <Typography className="account-info" color="#d3e3fdb3"><strong>Created User:</strong> {account.user?.login}</Typography>
                         <Button variant="outlined">View Detail</Button>
                       </CardContent>
                     </Card>

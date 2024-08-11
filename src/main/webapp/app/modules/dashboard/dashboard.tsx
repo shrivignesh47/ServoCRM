@@ -396,6 +396,7 @@ import DealsContents from './Contents/DealsContents';
 import MeetingsContents from './Contents/MeetingsContents';
 import TicketsContents from './Contents/TicketsContents';
 import './dashboard.scss';
+import PowerBi from './PowerBi/PowerBi';
 
 const Dashboard: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -554,9 +555,7 @@ const Dashboard: React.FC = () => {
 
     return (
       <div className={`content ${collapsed ? 'collapsed' : ''}`}>
-        <Typography variant="h4">Dashboard</Typography>
-        <p>Welcome to your dashboard</p>
-
+        <Typography variant="h4" style={{color:'#d3e3fdb3'}}>Dashboard</Typography>
         {loading && <CircularProgress />}
         {error && <Alert severity="error">{error}</Alert>}
 
@@ -564,16 +563,16 @@ const Dashboard: React.FC = () => {
         {!loading && !error && (
           <div className="summary-section">
             <div className="summary-card">
-              <Typography variant="h6">Total Leads</Typography>
-              <Typography variant="h4">{totalLeads}</Typography>
+              <Typography variant="h6" color="#d3e3fdb3">Total Leads</Typography>
+              <Typography variant="h4"color="wheat">{totalLeads}</Typography>
             </div>
             <div className="summary-card">
-              <Typography variant="h6">Total Tasks</Typography>
-              <Typography variant="h4">{tasks.length}</Typography>
+              <Typography variant="h6" color="#d3e3fdb3">Total Tasks</Typography>
+              <Typography variant="h4"color="wheat">{tasks.length}</Typography>
             </div>
             <div className="summary-card">
-              <Typography variant="h6">Total Deals</Typography>
-              <Typography variant="h4">{deals.length}</Typography>
+              <Typography variant="h6"color="#d3e3fdb3">Total Deals</Typography>
+              <Typography variant="h4"color="wheat">{deals.length}</Typography>
             </div>
           </div>
         )}
@@ -581,10 +580,10 @@ const Dashboard: React.FC = () => {
         {!loading && (
           <Grid container spacing={3}>
             {/* Overview Pie Chart */}
-            <Grid item xs={12} md={6} lg={4}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6">Overview</Typography>
+            <Grid item xs={12} md={6} lg={4} >
+              <Card >
+                <CardContent style={{backgroundColor:'#162c46'}}>
+                  <Typography variant="h6" color="#d3e3fdb3">Overview</Typography>
                   <PieChart width={400} height={300}>
                     <Pie
                       data={pieData}
@@ -593,7 +592,7 @@ const Dashboard: React.FC = () => {
                       labelLine={false}
                       label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       outerRadius={80}
-                      fill="#8884d8"
+                      fill="#162c46"
                       dataKey="value"
                     >
                       {pieData.map((entry, index) => (
@@ -609,8 +608,8 @@ const Dashboard: React.FC = () => {
             {/* Bar Chart for Data Breakdown */}
             <Grid item xs={12} md={6} lg={8}>
               <Card>
-                <CardContent>
-                  <Typography variant="h6">Data Breakdown</Typography>
+                <CardContent  style={{backgroundColor:'#162c46'}}>
+                  <Typography variant="h6" color="#d3e3fdb3">Data Breakdown</Typography>
                   <BarChart
                     width={700}
                     height={300}
@@ -631,8 +630,8 @@ const Dashboard: React.FC = () => {
             {/* Meetings Line Chart */}
             <Grid item xs={12} md={6} lg={8}>
               <Card>
-                <CardContent>
-                  <Typography variant="h6">Meeting Activity</Typography>
+                <CardContent  style={{backgroundColor:'#162c46'}}>
+                  <Typography variant="h6" color="#d3e3fdb3">Meeting Activity</Typography>
                   <LineChart
                     width={700}
                     height={300}
@@ -653,13 +652,15 @@ const Dashboard: React.FC = () => {
             {/* Task Status Pie Chart */}
             <Grid item xs={12} md={6} lg={4}>
               <Card>
-                <CardContent>
-                  <Typography variant="h6">Task Status</Typography>
+                <CardContent  style={{backgroundColor:'#162c46'}}>
+                  <Typography variant="h6" color="#d3e3fdb3">Task Status</Typography>
                   <PieChart width={400} height={300}>
                     <Pie
                       data={taskStatusData}
-                      cx={200}
-                      cy={200}
+                      height={10}
+                      width={100}
+                      cx={170}
+                      cy={150}
                       labelLine={false}
                       label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                       outerRadius={80}
@@ -679,8 +680,8 @@ const Dashboard: React.FC = () => {
             {/* Deal Status Pie Chart */}
             <Grid item xs={12} md={6} lg={4}>
               <Card>
-                <CardContent>
-                  <Typography variant="h6">Deal Status</Typography>
+                <CardContent  style={{backgroundColor:'#162c46'}}>
+                  <Typography variant="h6" color="#d3e3fdb3">Deal Status</Typography>
                   <PieChart width={400} height={400}>
                     <Pie
                       data={dealStatusData}
@@ -705,8 +706,8 @@ const Dashboard: React.FC = () => {
             {/* Ticket Status Pie Chart */}
             <Grid item xs={12} md={6} lg={4}>
               <Card>
-                <CardContent>
-                  <Typography variant="h6">Ticket Status</Typography>
+                <CardContent  style={{backgroundColor:'#162c46'}}>
+                  <Typography variant="h6" color="#d3e3fdb3">Ticket Status</Typography>
                   <PieChart width={400} height={400}>
                     <Pie
                       data={ticketStatusData}
@@ -751,6 +752,8 @@ const Dashboard: React.FC = () => {
         return <MeetingsContents meetings={meetings} loading={loading} error={error} collapsed={collapsed} />;
       case 'tickets':
         return <TicketsContents tickets={tickets} loading={loading} error={error} collapsed={collapsed} />;
+        case 'Marketing':
+          return <PowerBi/>;
       default:
         return renderDashboard();
     }

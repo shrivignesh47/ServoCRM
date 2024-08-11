@@ -152,7 +152,7 @@ const TaskContents: React.FC<TaskContentsProps> = ({ tasks, loading, error, coll
     <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
       <div className={`content ${collapsed ? 'collapsed' : ''}`}>
         <div className="top-bar">
-          <Typography variant="h4">Tasks</Typography>
+          <Typography variant="h4" color="#d3e3fdb3">Tasks</Typography>
           <Link to="/task/new" className="create-task-button">
             <FontAwesomeIcon icon="plus" />
             &nbsp; Create a new Task
@@ -192,16 +192,16 @@ const TaskContents: React.FC<TaskContentsProps> = ({ tasks, loading, error, coll
               <Grid container spacing={3}>
                 {filteredTasks.map(task => (
                   <Grid item xs={12} md={6} lg={4} key={task.id}>
-                    <Card className="task-card">
+                    <Card className="task-card" style={{backgroundColor:'#162c46'}}>
                       <CardContent>
-                        <Typography variant="h6">{task.title}</Typography>
-                        <Typography className="task-info"><strong>Subject:</strong> {task.subject}</Typography>
-                        <Typography className="task-info"><strong>Due Date:</strong> {task.dueDate}</Typography>
-                        <Typography className="task-info"><strong>Priority:</strong> {task.priority}</Typography>
-                        <Typography className="task-info"><strong>Description:</strong> {task.description}</Typography>
-                        <Typography className="task-info"><strong>Reminder:</strong> {task.reminder}</Typography>
-                        <Typography className="task-info"><strong>User:</strong> {task.user.login}</Typography>
-                        <Typography className="task-info"><strong>Status:</strong> {task.status}</Typography>
+                        <Typography variant="h6" color="#d3e3fdb3">{task.title}</Typography>
+                        <Typography className="task-info"color="#d3e3fdb3"><strong>Subject:</strong> {task.subject}</Typography>
+                        <Typography className="task-info"color="#d3e3fdb3"><strong>Due Date:</strong> {task.dueDate}</Typography>
+                        <Typography className="task-info"color="#d3e3fdb3"><strong>Priority:</strong> {task.priority}</Typography>
+                        <Typography className="task-info"color="#d3e3fdb3"><strong>Description:</strong> {task.description}</Typography>
+                        <Typography className="task-info"color="#d3e3fdb3"><strong>Reminder:</strong> {task.reminder}</Typography>
+                        <Typography className="task-info"color="#d3e3fdb3"><strong>User:</strong> {task.user.login}</Typography>
+                        <Typography className="task-info"color="#d3e3fdb3"><strong>Status:</strong> {task.status}</Typography>
                       </CardContent>
                     </Card>
                   </Grid>

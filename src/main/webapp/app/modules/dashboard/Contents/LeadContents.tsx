@@ -769,7 +769,7 @@ const LeadContents: React.FC<LeadContentsProps> = ({ leads, loading, error, coll
     <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
       <div className={`content ${collapsed ? 'collapsed' : ''}`}>
         <div className="Top-header">
-          <Typography variant="h4">Leads</Typography>
+          <Typography variant="h4" color="#d3e3fdb3">Leads</Typography>
           <Link to="/lead/new" className="create-contact-button">
             <FontAwesomeIcon icon="plus" />
             &nbsp; Create a new Lead
@@ -821,14 +821,14 @@ const LeadContents: React.FC<LeadContentsProps> = ({ leads, loading, error, coll
           <Grid container spacing={3}>
             {filteredLeads.map((lead) => (
               <Grid item xs={12} md={6} lg={4} key={lead.id}>
-                <Card className="lead-card" onClick={() => handleClickOpen(lead)}>
+                <Card className="lead-card" style={{backgroundColor:'#162c46'}} onClick={() => handleClickOpen(lead)}>
                   <CardContent className='card-content'>
-                    <Typography variant="h6">{lead.first_name} {lead.last_name}</Typography>
-                    <Typography variant="body2">Company: {lead.company}</Typography>
-                    <Typography variant="body2">Website: {lead.website}</Typography>
-                    <Typography variant="body2">Email: {lead.email}</Typography>
-                    <Typography variant="body2">Phone: {lead.phone}</Typography>
-                    <Typography variant="body2">Status: {lead.lead_status}</Typography>
+                    <Typography variant="h6" color="#d3e3fdb3">{lead.first_name} {lead.last_name}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Company: {lead.company}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Website: {lead.website}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Email: {lead.email}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Phone: {lead.phone}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Status: {lead.lead_status}</Typography>
                     <Button variant="outlined">View Detail</Button>
                   </CardContent>
                 </Card>

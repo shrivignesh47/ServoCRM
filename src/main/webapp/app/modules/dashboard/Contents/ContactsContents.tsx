@@ -672,7 +672,7 @@ const ContactContents: React.FC<ContactContentsProps> = ({ contacts, loading, er
     <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
       <div className={`content ${collapsed ? 'collapsed' : ''}`}>
         <div className="Top-header">
-          <Typography variant="h4">Contacts</Typography>
+          <Typography variant="h4" color="#d3e3fdb3">Contacts</Typography>
           <Link to="/contacts/new" className="create-contact-button">
             <FontAwesomeIcon icon="plus" />
             &nbsp; Create New Contact
@@ -721,14 +721,14 @@ const ContactContents: React.FC<ContactContentsProps> = ({ contacts, loading, er
           <Grid container spacing={3}>
             {filteredContacts.map((contact) => (
               <Grid item xs={12} md={6} lg={4} key={contact.id}>
-                <Card className="contact-card" onClick={() => handleClickOpen(contact)}>
-                  <CardContent className='card-content'>
-                    <Typography variant="h6">{contact.first_name} {contact.last_name}</Typography>
-                    <Typography variant="body2">Email: {contact.email}</Typography>
-                    <Typography variant="body2">Phone: {contact.phone}</Typography>
-                    <Typography variant="body2">Account Name: {contact.account_name}</Typography>
-                    <Typography variant="body2">Lead Source: {contact.lead_source}</Typography>
-                    <Button variant="outlined">View Detail</Button>
+                <Card className="contact-card" style={{backgroundColor:'#162c46'}} onClick={() => handleClickOpen(contact)}>
+                  <CardContent className='card-content' color="#d3e3fdb3" >
+                    <Typography variant="h6" color="#d3e3fdb3">{contact.first_name} {contact.last_name}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Email: {contact.email}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Phone: {contact.phone}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Account Name: {contact.account_name}</Typography>
+                    <Typography variant="body2" color="#d3e3fdb3">Lead Source: {contact.lead_source}</Typography>
+                    <Button variant="outlined" >View Detail</Button>
                   </CardContent>
                 </Card>
               </Grid>

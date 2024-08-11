@@ -154,8 +154,8 @@ const DealsContents: React.FC<DealsContentsProps> = ({ deals, loading, error, co
               <Grid container spacing={3}>
                 {filteredDeals.map(deal => (
                   <Grid item xs={12} md={6} lg={4} key={deal.id}>
-                    <Card className="deal-card">
-                      <CardContent>
+                    <Card className="deal-card" style={{backgroundColor:'#162c46'}}>
+                      <CardContent style={{backgroundColor:'#162c46'}}>
                         <Typography variant="h6">{deal.title}</Typography>
                         <Typography className="deal-info"><strong>Amount:</strong> {deal.amount}</Typography>
                         <Typography className="deal-info"><strong>Stage:</strong> {deal.stage}</Typography>

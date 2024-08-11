@@ -21,11 +21,11 @@ const ProductsContents: React.FC<ProductsContentsProps> = ({ products, loading, 
   return (
     <div className="content">
       {products.map(product => (
-        <Card key={product.id}>
+        <Card key={product.id} style={{backgroundColor:'#162c46'}}>
           <CardContent>
-            <Typography variant="h6">{product.name}</Typography>
-            <Typography variant="body2">Price: {product.price}</Typography>
-            <Typography variant="body2">Stock: {product.stock}</Typography>
+            <Typography variant="h6"color="#d3e3fdb3">{product.name}</Typography>
+            <Typography variant="body2"color="#d3e3fdb3">Price: {product.price}</Typography>
+            <Typography variant="body2"color="#d3e3fdb3">Stock: {product.stock}</Typography>
           </CardContent>
         </Card>
       ))}
