@@ -86,6 +86,7 @@
     "dayjs": "1.11.11",
     "file-saver": "^2.0.5",
     "lodash": "4.17.21",
+    "papaparse": "^5.4.1",
     "path-browserify": "1.0.1",
     "powerbi-client": "^2.23.1",
     "powerbi-client-react": "^1.4.0",

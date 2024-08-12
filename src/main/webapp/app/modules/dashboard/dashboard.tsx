@@ -396,7 +396,9 @@ import DealsContents from './Contents/DealsContents';
 import MeetingsContents from './Contents/MeetingsContents';
 import TicketsContents from './Contents/TicketsContents';
 import './dashboard.scss';
-import PowerBi from './PowerBi/PowerBi';
+import ExcelToDashboard from './Excel/ExcelToDashboard';
+import PowerBi from './Excel/PowerBI';
+import EmailMarketing from './Marketing/EmailMarketing';
 
 const Dashboard: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -411,8 +413,10 @@ const Dashboard: React.FC = () => {
   const [selectedMenu, setSelectedMenu] = useState('dashboard');
   const [collapsed, setCollapsed] = useState(false);
   const [crmOpen, setCrmOpen] = useState(false);
+  const [ExcelOpen,setExcelOpen] =useState(false);
+  const [MarketingOpen,setMarketingOpen] =useState(false);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchData = async () => {
       try {
         const [
@@ -457,6 +461,17 @@ const Dashboard: React.FC = () => {
     setCrmOpen((prevCrmOpen) => !prevCrmOpen);
   };
 
+  const toggleMarketingMenu = () => {
+    setMarketingOpen((prevMarketingOpen) => !prevMarketingOpen);
+  };
+
+  const toggleExcelMenu = () => {
+    setExcelOpen((prevExcelOpen) => !prevExcelOpen);
+  };
+
+  // const toggleMarketingMenu=()=>{
+  //   setMarketingOpen((prevMarketingOpen))=> !prevMarketingOpen);
+  // }
   // Convert meeting data to a format suitable for the line chart
   const getMeetingDataForChart = () => {
     const meetingsData = meetings.map((meeting) => {
@@ -752,8 +767,12 @@ const Dashboard: React.FC = () => {
         return <MeetingsContents meetings={meetings} loading={loading} error={error} collapsed={collapsed} />;
       case 'tickets':
         return <TicketsContents tickets={tickets} loading={loading} error={error} collapsed={collapsed} />;
-        case 'Marketing':
-          return <PowerBi/>;
+        case 'Excel':
+          return <ExcelToDashboard/>;
+          case 'PowerBI':
+            return <PowerBi/>;
+            case 'EmailMarketing':
+            return<EmailMarketing/>;
       default:
         return renderDashboard();
     }
@@ -762,11 +781,17 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard">
       <Sidebar
-        collapsed={collapsed}
-        toggleSidebar={toggleSidebar}
-        crmOpen={crmOpen}
-        toggleCrmMenu={toggleCrmMenu}
-        setSelectedMenu={setSelectedMenu}
+      collapsed={collapsed}
+      toggleSidebar={toggleSidebar}
+      crmOpen={crmOpen}
+      toggleCrmMenu={toggleCrmMenu}
+      setSelectedMenu={setSelectedMenu}
+      ExcelOpen={ExcelOpen}
+      toggleExcelMenu={toggleExcelMenu}
+      setSelectedMenuExcel={setSelectedMenu}
+      MarketingOpen={MarketingOpen}
+      toggleMarketingMenu={toggleMarketingMenu}
+      setSelectedMenuMarketing={setSelectedMenu}
       />
       <div className={`main-content ${collapsed ? 'collapsed' : ''}`}>
         {renderContent()}
