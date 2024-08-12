@@ -133,8 +133,23 @@
 
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
-import { Button, Typography, FormControl, InputLabel, Select, MenuItem, Grid, CircularProgress, Tooltip, IconButton } from '@mui/material';
+import {
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Grid,
+  CircularProgress,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  IconButton,
+  Tooltip
+} from '@mui/material';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, LineChart, Line, RadarChart, Radar, ScatterChart, Scatter, AreaChart, Area, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { HelpOutline as HelpIcon } from '@mui/icons-material';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6666', '#6a0dad', '#008000', '#800080', '#FFD700', '#FF4500'];
 
@@ -204,108 +219,194 @@ const PowerBi: React.FC = () => {
 
     return (
       <Grid container spacing={3} style={{ marginTop: '20px' }}>
-        <Grid item xs={12} md={4}>
-          <Typography variant="h6">Pie Chart</Typography>
-          <PieChart width={400} height={400}>
-            <Pie
-              data={chartData}
-              dataKey={dataKey2}
-              nameKey={dataKey1}
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-              fill="#8884d8"
-              label
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <RechartsTooltip />
-          </PieChart>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader
+              title="Pie Chart"
+              action={
+                <Tooltip title="A Pie chart represents data in a circular format. Each segment represents a proportion of the whole.">
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+            <Divider />
+            <CardContent>
+              <PieChart width={500} height={400}>
+                <Pie
+                  data={chartData}
+                  dataKey={dataKey2}
+                  nameKey={dataKey1}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={150}
+                  fill="#8884d8"
+                  label
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <RechartsTooltip />
+              </PieChart>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Typography variant="h6">Bar Chart</Typography>
-          <BarChart
-            width={400}
-            height={300}
-            data={chartData}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={dataKey1} />
-            <YAxis />
-            <RechartsTooltip />
-            <Legend />
-            <Bar dataKey={dataKey2} fill="#8884d8" />
-          </BarChart>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader
+              title="Bar Chart"
+              action={
+                <Tooltip title="A Bar chart shows data with rectangular bars. The length of each bar represents the value of the data.">
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+            <Divider />
+            <CardContent>
+              <BarChart width={500} height={400} data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={dataKey1} />
+                <YAxis />
+                <RechartsTooltip />
+                <Legend />
+                <Bar dataKey={dataKey2} fill="#8884d8" />
+              </BarChart>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Typography variant="h6">Line Chart</Typography>
-          <LineChart width={400} height={300} data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={dataKey1} />
-            <YAxis />
-            <RechartsTooltip />
-            <Legend />
-            <Line type="monotone" dataKey={dataKey2} stroke="#8884d8" />
-          </LineChart>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader
+              title="Line Chart"
+              action={
+                <Tooltip title="A Line chart displays information as a series of data points connected by straight line segments.">
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+            <Divider />
+            <CardContent>
+              <LineChart width={500} height={400} data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={dataKey1} />
+                <YAxis />
+                <RechartsTooltip />
+                <Legend />
+                <Line type="monotone" dataKey={dataKey2} stroke="#8884d8" />
+              </LineChart>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Typography variant="h6">Radar Chart</Typography>
-          <RadarChart outerRadius={90} width={400} height={300} data={chartData}>
-            <PolarGrid />
-            <PolarAngleAxis dataKey={dataKey1} />
-            <PolarRadiusAxis />
-            <Radar name={dataKey1} dataKey={dataKey2} stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-          </RadarChart>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader
+              title="Radar Chart"
+              action={
+                <Tooltip title="A Radar chart displays data on a 2D plane with multiple axes starting from the same point.">
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+            <Divider />
+            <CardContent>
+              <RadarChart outerRadius={150} width={500} height={400} data={chartData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey={dataKey1} />
+                <PolarRadiusAxis />
+                <Radar name={dataKey1} dataKey={dataKey2} stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+              </RadarChart>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Typography variant="h6">Scatter Chart</Typography>
-          <ScatterChart width={400} height={300}>
-            <CartesianGrid />
-            <XAxis dataKey={dataKey1} name="X Axis" />
-            <YAxis dataKey={dataKey2} name="Y Axis" />
-            <RechartsTooltip />
-            <Scatter name="Scatter" data={chartData} fill="#8884d8" />
-          </ScatterChart>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader
+              title="Scatter Chart"
+              action={
+                <Tooltip title="A Scatter chart shows data points plotted on a horizontal and vertical axis to determine relationships.">
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+            <Divider />
+            <CardContent>
+              <ScatterChart width={500} height={400} data={chartData}>
+                <CartesianGrid />
+                <XAxis dataKey={dataKey1} name="X Axis" />
+                <YAxis dataKey={dataKey2} name="Y Axis" />
+                <RechartsTooltip />
+                <Scatter name="Scatter" data={chartData} fill="#8884d8" />
+              </ScatterChart>
+            </CardContent>
+          </Card>
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Typography variant="h6">Area Chart</Typography>
-          <AreaChart width={400} height={300} data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={dataKey1} />
-            <YAxis />
-            <RechartsTooltip />
-            <Area type="monotone" dataKey={dataKey2} stroke="#8884d8" fill="#8884d8" />
-          </AreaChart>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardHeader
+              title="Area Chart"
+              action={
+                <Tooltip title="An Area chart shows quantitative data with the area under the line filled in.">
+                  <IconButton>
+                    <HelpIcon />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+            <Divider />
+            <CardContent>
+              <AreaChart width={500} height={400} data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey={dataKey1} />
+                <YAxis />
+                <RechartsTooltip />
+                <Area type="monotone" dataKey={dataKey2} stroke="#8884d8" fill="#8884d8" />
+              </AreaChart>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     );
   };
 
   return (
-    <div className="main-content">
-      <div className="content">
-        <Typography variant="h4" gutterBottom>
-          Excel to Dashboard
-        </Typography>
-        <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
-        <div style={{ marginTop: '20px' }}>
-          {loading && <CircularProgress />}
-          {error && <Typography color="error">Error: {error}</Typography>}
-        </div>
-        <div style={{ marginTop: '20px' }}>
-          {renderCharts()}
-        </div>
+    <div className='main-content'>
+<div className='content' >
+    <div style={{ padding: '20px' }}>
+      <Typography variant="h4" gutterBottom>
+        Excel to Dashboard
+      </Typography>
+      <input
+        type="file"
+        accept=".xlsx, .xls"
+        onChange={handleFileUpload}
+        style={{ marginBottom: '20px' }}
+        />
+      {loading && <CircularProgress />}
+      {error && <Typography color="error">Error: {error}</Typography>}
+      <div style={{ marginTop: '20px' }}>
+        {renderCharts()}
       </div>
     </div>
+        </div>
+        </div>
   );
 };
 
+
 export default PowerBi;
+
