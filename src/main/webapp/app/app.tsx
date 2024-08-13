@@ -33,10 +33,10 @@ export const App = () => {
   const isInProduction = useAppSelector(state => state.applicationProfile.inProduction);
   const isOpenAPIEnabled = useAppSelector(state => state.applicationProfile.isOpenAPIEnabled);
 
-  const paddingTop = '60px';
+  const paddingTop = '40px';
   return (
     <BrowserRouter basename={baseHref}>
-      <div className="" style={{ paddingTop }}>
+      <div  style={{ paddingTop }}>
         <ToastContainer position="top-left" className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
           <Header

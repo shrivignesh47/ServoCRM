@@ -196,7 +196,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               <FontAwesomeIcon icon={faBullhorn} />
               <span className="nav-text">Email Marketing</span>
             </Nav.Link>
-            <Nav.Link onClick={() => setSelectedMenu('PowerBI')} className="submenu-item">
+            <Nav.Link onClick={() => setSelectedMenu('WhatsappMarketing')} className="submenu-item">
               <FontAwesomeIcon icon={faBullhorn} />
               <span className="nav-text">Whatsapp Marketing</span>
             </Nav.Link>

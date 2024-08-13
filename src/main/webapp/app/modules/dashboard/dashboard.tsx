@@ -399,6 +399,7 @@ import './dashboard.scss';
 import ExcelToDashboard from './Excel/ExcelToDashboard';
 import PowerBi from './Excel/PowerBI';
 import EmailMarketing from './Marketing/EmailMarketing';
+import WhatsappMarketing from './Marketing/WhatsappMarketing';
 
 const Dashboard: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -525,9 +526,9 @@ const Dashboard: React.FC = () => {
     const wonDeals = deals.filter((deal) => deal.stage === 'QUALIFICATION').length;
     const lostDeals = deals.filter((deal) => deal.stage === 'CLOSED_LOST').length;
 
-    const ticketOpen = tickets.filter((ticket) => ticket.status === 'OPEN').length;
+    const ticketEscalated = tickets.filter((ticket) => ticket.status === 'ESCALATED').length;
     const ticketClosed = tickets.filter((ticket) => ticket.status === 'CLOSED').length;
-
+    const ticketOpen = tickets.filter((ticket) => ticket.status === 'OPEN').length;
     // Data for charts
     const pieData = [
       { name: 'Leads', value: totalLeads },
@@ -565,7 +566,9 @@ const Dashboard: React.FC = () => {
 
     const ticketStatusData = [
       { name: 'Open', count: ticketOpen },
-      { name: 'Escalated', count: ticketClosed },
+      { name: 'Close', count: ticketClosed},
+      { name: 'Escalated', count: ticketEscalated },
+      
     ];
 
     return (
@@ -773,6 +776,8 @@ const Dashboard: React.FC = () => {
             return <PowerBi/>;
             case 'EmailMarketing':
             return<EmailMarketing/>;
+            case 'WhatsappMarketing':
+              return<WhatsappMarketing/>;
       default:
         return renderDashboard();
     }

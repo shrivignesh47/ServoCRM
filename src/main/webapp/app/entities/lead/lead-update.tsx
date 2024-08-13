@@ -89,12 +89,12 @@ export const LeadUpdate = () => {
 
   return (
     <div className="lead-update-container">
-      <h2 className="lead-update-header">Create or Edit a Lead</h2>
+      <h2 className="lead-update-header" style={{color:'#d3e3fdb3'}}>Create or Edit a Lead</h2>
       {loading ? (
         <p className="lead-update-loading">Loading...</p>
       ) : (
         <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity} className="lead-update-form">
-          <h3 className="lead-update-section-header">Lead Information</h3>
+          <h3 className="lead-update-section-header" style={{color:'#d3e3fdb3'}}>Lead Information</h3>
           <br></br>
           <ValidatedField
             label="First Name"
@@ -102,6 +102,7 @@ export const LeadUpdate = () => {
             name="first_name"
             data-cy="first_name"
             type="text"
+            color='#d3e3fdb3'
             validate={{
               required: { value: true, message: 'This field is required.' },
             }}

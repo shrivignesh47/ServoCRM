@@ -5,7 +5,7 @@
   padding: 40px 20px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #2c3e50;
-  background: #ecf0f1;
+  background: #1c2031;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
@@ -37,10 +37,10 @@
   width: 100%;
   padding: 12px;
   margin-top: 5px;
-  border: 1px solid #bdc3c7;
+  border: 1px solid #2e8ecf;
   border-radius: 5px;
   box-sizing: border-box;
-  background: #ecf0f1;
+  background: #162c46;
   color: #2c3e50;
   font-size: 16px;
   transition: border-color 0.3s ease;

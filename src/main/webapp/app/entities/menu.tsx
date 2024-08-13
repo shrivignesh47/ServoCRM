@@ -33,6 +33,9 @@ const EntitiesMenu = () => {
       <MenuItem icon="asterisk" to="/marketing">
         Marketing
       </MenuItem>
+      <MenuItem icon="asterisk" to="/whatsappmarketing">
+        Whatsapp Marketing
+      </MenuItem>
       {/* jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here */}
     </>
   );
