@@ -35,7 +35,8 @@ public class Authority implements Serializable {
         this.name = name;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
 
     @Override
     public boolean equals(Object o) {
@@ -57,7 +58,7 @@ public class Authority implements Serializable {
     @Override
     public String toString() {
         return "Authority{" +
-            "name=" + getName() +
-            "}";
+                "name=" + getName() +
+                "}";
     }
 }

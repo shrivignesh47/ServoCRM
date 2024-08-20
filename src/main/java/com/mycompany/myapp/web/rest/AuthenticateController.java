@@ -55,21 +55,21 @@ public class AuthenticateController {
     @PostMapping("/authenticate")
     public Mono<ResponseEntity<JWTToken>> authorize(@Valid @RequestBody Mono<LoginVM> loginVM) {
         return loginVM
-            .flatMap(
-                login ->
-                    authenticationManager
-                        .authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()))
-                        .flatMap(auth -> Mono.fromCallable(() -> this.createToken(auth, login.isRememberMe())))
-            )
-            .map(jwt -> {
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.setBearerAuth(jwt);
-                return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
-            });
+                .flatMap(
+                        login -> authenticationManager
+                                .authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(),
+                                        login.getPassword()))
+                                .flatMap(auth -> Mono.fromCallable(() -> this.createToken(auth, login.isRememberMe()))))
+                .map(jwt -> {
+                    HttpHeaders httpHeaders = new HttpHeaders();
+                    httpHeaders.setBearerAuth(jwt);
+                    return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+                });
     }
 
     /**
-     * {@code GET /authenticate} : check if the user is authenticated, and return its login.
+     * {@code GET /authenticate} : check if the user is authenticated, and return
+     * its login.
      *
      * @param request the HTTP request.
      * @return the login if the user is authenticated.
@@ -81,7 +81,8 @@ public class AuthenticateController {
     }
 
     public String createToken(Authentication authentication, boolean rememberMe) {
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
+        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(" "));
 
         Instant now = Instant.now();
         Instant validity;

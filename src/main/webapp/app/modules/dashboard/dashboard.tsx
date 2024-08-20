@@ -400,6 +400,7 @@ import ExcelToDashboard from './Excel/ExcelToDashboard';
 import PowerBi from './Excel/PowerBI';
 import EmailMarketing from './Marketing/EmailMarketing';
 import WhatsappMarketing from './Marketing/WhatsappMarketing';
+import Marketplace from './Marketplace/Marketplace';
 
 const Dashboard: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -778,6 +779,8 @@ const Dashboard: React.FC = () => {
             return<EmailMarketing/>;
             case 'WhatsappMarketing':
               return<WhatsappMarketing/>;
+            case 'MarketPlace':
+              return<Marketplace/>;
       default:
         return renderDashboard();
     }
