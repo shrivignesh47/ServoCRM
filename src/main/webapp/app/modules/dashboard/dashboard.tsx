@@ -401,6 +401,7 @@ import PowerBi from './Excel/PowerBI';
 import EmailMarketing from './Marketing/EmailMarketing';
 import WhatsappMarketing from './Marketing/WhatsappMarketing';
 import Marketplace from './Marketplace/Marketplace';
+import ZoomMeeting from './ZoomMeeting/ZoomMeeting';
 
 const Dashboard: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -781,6 +782,8 @@ const Dashboard: React.FC = () => {
               return<WhatsappMarketing/>;
             case 'MarketPlace':
               return<Marketplace/>;
+              case 'ZoomMeeting':
+              return<ZoomMeeting/>;
       default:
         return renderDashboard();
     }

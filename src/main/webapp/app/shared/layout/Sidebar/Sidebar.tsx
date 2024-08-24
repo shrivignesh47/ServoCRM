@@ -206,6 +206,10 @@ const Sidebar: React.FC<SidebarProps> = ({
               <FontAwesomeIcon icon={faBullhorn} />
               <span className="nav-text">MarketPlace</span>
             </Nav.Link>
+            <Nav.Link onClick={() => setSelectedMenu('ZoomMeeting')} className="nav-item">
+              <FontAwesomeIcon icon={faBullhorn} />
+              <span className="nav-text">Zoom</span>
+            </Nav.Link>
       </Nav>
     </div>
   );
