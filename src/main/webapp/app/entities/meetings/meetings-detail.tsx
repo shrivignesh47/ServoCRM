@@ -48,6 +48,10 @@ export const MeetingsDetail = () => {
             <span id="to">To</span>
           </dt>
           <dd>{meetingsEntity.to ? <TextFormat value={meetingsEntity.to} type="date" format={APP_DATE_FORMAT} /> : null}</dd>
+          <dt>
+            <span id="google_meet">Google Meet</span>
+          </dt>
+          <dd>{meetingsEntity.google_meet}</dd>
           <dt>User</dt>
           <dd>{meetingsEntity.user ? meetingsEntity.user.login : ''}</dd>
         </dl>

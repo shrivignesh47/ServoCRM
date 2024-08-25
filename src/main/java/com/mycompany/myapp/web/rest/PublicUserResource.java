@@ -24,8 +24,7 @@ import tech.jhipster.web.util.PaginationUtil;
 public class PublicUserResource {
 
     private static final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
-        Arrays.asList("id", "login", "firstName", "lastName", "email", "activated", "langKey")
-    );
+            Arrays.asList("id", "login", "firstName", "lastName", "email", "activated", "langKey"));
 
     private static final Logger log = LoggerFactory.getLogger(PublicUserResource.class);
 
@@ -36,33 +35,31 @@ public class PublicUserResource {
     }
 
     /**
-     * {@code GET /users} : get all users with only public information - calling this method is allowed for anyone.
+     * {@code GET /users} : get all users with only public information - calling
+     * this method is allowed for anyone.
      *
-     * @param request a {@link ServerHttpRequest} request.
+     * @param request  a {@link ServerHttpRequest} request.
      * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body all users.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         all users.
      */
     @GetMapping("/users")
     public Mono<ResponseEntity<Flux<UserDTO>>> getAllPublicUsers(
-        ServerHttpRequest request,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
-    ) {
+            ServerHttpRequest request,
+            @org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get all public User names");
         if (!onlyContainsAllowedProperties(pageable)) {
             return Mono.just(ResponseEntity.badRequest().build());
         }
 
         return userService
-            .countManagedUsers()
-            .map(total -> new PageImpl<>(new ArrayList<>(), pageable, total))
-            .map(
-                page ->
-                    PaginationUtil.generatePaginationHttpHeaders(
-                        ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(), request.getHeaders()),
-                        page
-                    )
-            )
-            .map(headers -> ResponseEntity.ok().headers(headers).body(userService.getAllPublicUsers(pageable)));
+                .countManagedUsers()
+                .map(total -> new PageImpl<>(new ArrayList<>(), pageable, total))
+                .map(
+                        page -> PaginationUtil.generatePaginationHttpHeaders(
+                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(), request.getHeaders()),
+                                page))
+                .map(headers -> ResponseEntity.ok().headers(headers).body(userService.getAllPublicUsers(pageable)));
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {

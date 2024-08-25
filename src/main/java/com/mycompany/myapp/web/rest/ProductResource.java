@@ -54,7 +54,9 @@ public class ProductResource {
      * {@code POST  /products} : Create a new product.
      *
      * @param product the product to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new product, or with status {@code 400 (Bad Request)} if the product has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new product, or with status {@code 400 (Bad Request)} if the
+     *         product has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
@@ -64,33 +66,35 @@ public class ProductResource {
             throw new BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists");
         }
         return productService
-            .save(product)
-            .map(result -> {
-                try {
-                    return ResponseEntity.created(new URI("/api/products/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                .save(product)
+                .map(result -> {
+                    try {
+                        return ResponseEntity.created(new URI("/api/products/" + result.getId()))
+                                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                        result.getId()))
+                                .body(result);
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     /**
      * {@code PUT  /products/:id} : Updates an existing product.
      *
-     * @param id the id of the product to save.
+     * @param id      the id of the product to save.
      * @param product the product to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated product,
-     * or with status {@code 400 (Bad Request)} if the product is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the product couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated product,
+     *         or with status {@code 400 (Bad Request)} if the product is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the product
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Product>> updateProduct(
-        @PathVariable(value = "id", required = false) final String id,
-        @Valid @RequestBody Product product
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @Valid @RequestBody Product product) throws URISyntaxException {
         log.debug("REST request to update Product : {}, {}", id, product);
         if (product.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -100,40 +104,41 @@ public class ProductResource {
         }
 
         return productRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                return productService
-                    .update(product)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        result ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                                .body(result)
-                    );
-            });
+                    return productService
+                            .update(product)
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    result -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, result.getId()))
+                                            .body(result));
+                });
     }
 
     /**
-     * {@code PATCH  /products/:id} : Partial updates given fields of an existing product, field will ignore if it is null
+     * {@code PATCH  /products/:id} : Partial updates given fields of an existing
+     * product, field will ignore if it is null
      *
-     * @param id the id of the product to save.
+     * @param id      the id of the product to save.
      * @param product the product to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated product,
-     * or with status {@code 400 (Bad Request)} if the product is not valid,
-     * or with status {@code 404 (Not Found)} if the product is not found,
-     * or with status {@code 500 (Internal Server Error)} if the product couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated product,
+     *         or with status {@code 400 (Bad Request)} if the product is not valid,
+     *         or with status {@code 404 (Not Found)} if the product is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the product
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Product>> partialUpdateProduct(
-        @PathVariable(value = "id", required = false) final String id,
-        @NotNull @RequestBody Product product
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @NotNull @RequestBody Product product) throws URISyntaxException {
         log.debug("REST request to partial update Product partially : {}, {}", id, product);
         if (product.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -143,61 +148,60 @@ public class ProductResource {
         }
 
         return productRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                Mono<Product> result = productService.partialUpdate(product);
+                    Mono<Product> result = productService.partialUpdate(product);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        res ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, res.getId()))
-                                .body(res)
-                    );
-            });
+                    return result
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    res -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, res.getId()))
+                                            .body(res));
+                });
     }
 
     /**
      * {@code GET  /products} : get all the products.
      *
-     * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of products in body.
+     * @param pageable  the pagination information.
+     * @param request   a {@link ServerHttpRequest} request.
+     * @param eagerload flag to eager load entities from relationships (This is
+     *                  applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of products in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<List<Product>>> getAllProducts(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request,
-        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
-    ) {
+            @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+            ServerHttpRequest request,
+            @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload) {
         log.debug("REST request to get a page of Products");
         return productService
-            .countAll()
-            .zipWith(productService.findAll(pageable).collectList())
-            .map(
-                countWithEntities ->
-                    ResponseEntity.ok()
-                        .headers(
-                            PaginationUtil.generatePaginationHttpHeaders(
-                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(), request.getHeaders()),
-                                new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                            )
-                        )
-                        .body(countWithEntities.getT2())
-            );
+                .countAll()
+                .zipWith(productService.findAll(pageable).collectList())
+                .map(
+                        countWithEntities -> ResponseEntity.ok()
+                                .headers(
+                                        PaginationUtil.generatePaginationHttpHeaders(
+                                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(),
+                                                        request.getHeaders()),
+                                                new PageImpl<>(countWithEntities.getT2(), pageable,
+                                                        countWithEntities.getT1())))
+                                .body(countWithEntities.getT2()));
     }
 
     /**
      * {@code GET  /products/:id} : get the "id" product.
      *
      * @param id the id of the product to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the product, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the product, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Product>> getProduct(@PathVariable("id") String id) {
@@ -216,13 +220,12 @@ public class ProductResource {
     public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable("id") String id) {
         log.debug("REST request to delete Product : {}", id);
         return productService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity.noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id))
-                        .build()
-                )
-            );
+                .delete(id)
+                .then(
+                        Mono.just(
+                                ResponseEntity.noContent()
+                                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false,
+                                                ENTITY_NAME, id))
+                                        .build()));
     }
 }

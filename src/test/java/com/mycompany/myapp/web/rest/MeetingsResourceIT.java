@@ -58,6 +58,9 @@ class MeetingsResourceIT {
     private static final ZonedDateTime DEFAULT_TO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_TO = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
 
+    private static final String DEFAULT_GOOGLE_MEET = "AAAAAAAAAA";
+    private static final String UPDATED_GOOGLE_MEET = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/meetings";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -95,7 +98,8 @@ class MeetingsResourceIT {
             .location(DEFAULT_LOCATION)
             .location_Offline_Detail(DEFAULT_LOCATION_OFFLINE_DETAIL)
             .from(DEFAULT_FROM)
-            .to(DEFAULT_TO);
+            .to(DEFAULT_TO)
+            .google_meet(DEFAULT_GOOGLE_MEET);
         // Add required entity
         User user = UserResourceIT.createEntity();
         user.setId("fixed-id-for-tests");
@@ -115,7 +119,8 @@ class MeetingsResourceIT {
             .location(UPDATED_LOCATION)
             .location_Offline_Detail(UPDATED_LOCATION_OFFLINE_DETAIL)
             .from(UPDATED_FROM)
-            .to(UPDATED_TO);
+            .to(UPDATED_TO)
+            .google_meet(UPDATED_GOOGLE_MEET);
         // Add required entity
         User user = UserResourceIT.createEntity();
         user.setId("fixed-id-for-tests");
@@ -287,7 +292,9 @@ class MeetingsResourceIT {
             .jsonPath("$.[*].from")
             .value(hasItem(sameInstant(DEFAULT_FROM)))
             .jsonPath("$.[*].to")
-            .value(hasItem(sameInstant(DEFAULT_TO)));
+            .value(hasItem(sameInstant(DEFAULT_TO)))
+            .jsonPath("$.[*].google_meet")
+            .value(hasItem(DEFAULT_GOOGLE_MEET));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -334,7 +341,9 @@ class MeetingsResourceIT {
             .jsonPath("$.from")
             .value(is(sameInstant(DEFAULT_FROM)))
             .jsonPath("$.to")
-            .value(is(sameInstant(DEFAULT_TO)));
+            .value(is(sameInstant(DEFAULT_TO)))
+            .jsonPath("$.google_meet")
+            .value(is(DEFAULT_GOOGLE_MEET));
     }
 
     @Test
@@ -363,7 +372,8 @@ class MeetingsResourceIT {
             .location(UPDATED_LOCATION)
             .location_Offline_Detail(UPDATED_LOCATION_OFFLINE_DETAIL)
             .from(UPDATED_FROM)
-            .to(UPDATED_TO);
+            .to(UPDATED_TO)
+            .google_meet(UPDATED_GOOGLE_MEET);
 
         webTestClient
             .put()
@@ -480,7 +490,8 @@ class MeetingsResourceIT {
             .location(UPDATED_LOCATION)
             .location_Offline_Detail(UPDATED_LOCATION_OFFLINE_DETAIL)
             .from(UPDATED_FROM)
-            .to(UPDATED_TO);
+            .to(UPDATED_TO)
+            .google_meet(UPDATED_GOOGLE_MEET);
 
         webTestClient
             .patch()

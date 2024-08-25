@@ -39,6 +39,9 @@ public class Meetings implements Serializable {
     @Field("to")
     private ZonedDateTime to;
 
+    @Field("google_meet")
+    private String google_meet;
+
     @Field("user")
     private User user;
 
@@ -122,6 +125,19 @@ public class Meetings implements Serializable {
         this.to = to;
     }
 
+    public String getGoogle_meet() {
+        return this.google_meet;
+    }
+
+    public Meetings google_meet(String google_meet) {
+        this.setGoogle_meet(google_meet);
+        return this;
+    }
+
+    public void setGoogle_meet(String google_meet) {
+        this.google_meet = google_meet;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -164,6 +180,7 @@ public class Meetings implements Serializable {
             ", location_Offline_Detail='" + getLocation_Offline_Detail() + "'" +
             ", from='" + getFrom() + "'" +
             ", to='" + getTo() + "'" +
+            ", google_meet='" + getGoogle_meet() + "'" +
             "}";
     }
 }

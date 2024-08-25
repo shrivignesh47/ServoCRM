@@ -54,43 +54,49 @@ public class MarketingResource {
      * {@code POST  /marketings} : Create a new marketing.
      *
      * @param marketing the marketing to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new marketing, or with status {@code 400 (Bad Request)} if the marketing has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new marketing, or with status {@code 400 (Bad Request)} if
+     *         the marketing has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<Marketing>> createMarketing(@Valid @RequestBody Marketing marketing) throws URISyntaxException {
+    public Mono<ResponseEntity<Marketing>> createMarketing(@Valid @RequestBody Marketing marketing)
+            throws URISyntaxException {
         log.debug("REST request to save Marketing : {}", marketing);
         if (marketing.getId() != null) {
             throw new BadRequestAlertException("A new marketing cannot already have an ID", ENTITY_NAME, "idexists");
         }
         return marketingService
-            .save(marketing)
-            .map(result -> {
-                try {
-                    return ResponseEntity.created(new URI("/api/marketings/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                .save(marketing)
+                .map(result -> {
+                    try {
+                        return ResponseEntity.created(new URI("/api/marketings/" + result.getId()))
+                                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                        result.getId()))
+                                .body(result);
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     /**
      * {@code PUT  /marketings/:id} : Updates an existing marketing.
      *
-     * @param id the id of the marketing to save.
+     * @param id        the id of the marketing to save.
      * @param marketing the marketing to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated marketing,
-     * or with status {@code 400 (Bad Request)} if the marketing is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the marketing couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated marketing,
+     *         or with status {@code 400 (Bad Request)} if the marketing is not
+     *         valid,
+     *         or with status {@code 500 (Internal Server Error)} if the marketing
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Marketing>> updateMarketing(
-        @PathVariable(value = "id", required = false) final String id,
-        @Valid @RequestBody Marketing marketing
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @Valid @RequestBody Marketing marketing) throws URISyntaxException {
         log.debug("REST request to update Marketing : {}, {}", id, marketing);
         if (marketing.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -100,40 +106,42 @@ public class MarketingResource {
         }
 
         return marketingRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                return marketingService
-                    .update(marketing)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        result ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                                .body(result)
-                    );
-            });
+                    return marketingService
+                            .update(marketing)
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    result -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, result.getId()))
+                                            .body(result));
+                });
     }
 
     /**
-     * {@code PATCH  /marketings/:id} : Partial updates given fields of an existing marketing, field will ignore if it is null
+     * {@code PATCH  /marketings/:id} : Partial updates given fields of an existing
+     * marketing, field will ignore if it is null
      *
-     * @param id the id of the marketing to save.
+     * @param id        the id of the marketing to save.
      * @param marketing the marketing to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated marketing,
-     * or with status {@code 400 (Bad Request)} if the marketing is not valid,
-     * or with status {@code 404 (Not Found)} if the marketing is not found,
-     * or with status {@code 500 (Internal Server Error)} if the marketing couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated marketing,
+     *         or with status {@code 400 (Bad Request)} if the marketing is not
+     *         valid,
+     *         or with status {@code 404 (Not Found)} if the marketing is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the marketing
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Marketing>> partialUpdateMarketing(
-        @PathVariable(value = "id", required = false) final String id,
-        @NotNull @RequestBody Marketing marketing
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @NotNull @RequestBody Marketing marketing) throws URISyntaxException {
         log.debug("REST request to partial update Marketing partially : {}, {}", id, marketing);
         if (marketing.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -143,59 +151,57 @@ public class MarketingResource {
         }
 
         return marketingRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                Mono<Marketing> result = marketingService.partialUpdate(marketing);
+                    Mono<Marketing> result = marketingService.partialUpdate(marketing);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        res ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, res.getId()))
-                                .body(res)
-                    );
-            });
+                    return result
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    res -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, res.getId()))
+                                            .body(res));
+                });
     }
 
     /**
      * {@code GET  /marketings} : get all the marketings.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of marketings in body.
+     * @param request  a {@link ServerHttpRequest} request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of marketings in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<List<Marketing>>> getAllMarketings(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
-    ) {
+            @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+            ServerHttpRequest request) {
         log.debug("REST request to get a page of Marketings");
         return marketingService
-            .countAll()
-            .zipWith(marketingService.findAll(pageable).collectList())
-            .map(
-                countWithEntities ->
-                    ResponseEntity.ok()
-                        .headers(
-                            PaginationUtil.generatePaginationHttpHeaders(
-                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(), request.getHeaders()),
-                                new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                            )
-                        )
-                        .body(countWithEntities.getT2())
-            );
+                .countAll()
+                .zipWith(marketingService.findAll(pageable).collectList())
+                .map(
+                        countWithEntities -> ResponseEntity.ok()
+                                .headers(
+                                        PaginationUtil.generatePaginationHttpHeaders(
+                                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(),
+                                                        request.getHeaders()),
+                                                new PageImpl<>(countWithEntities.getT2(), pageable,
+                                                        countWithEntities.getT1())))
+                                .body(countWithEntities.getT2()));
     }
 
     /**
      * {@code GET  /marketings/:id} : get the "id" marketing.
      *
      * @param id the id of the marketing to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the marketing, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the marketing, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Marketing>> getMarketing(@PathVariable("id") String id) {
@@ -214,13 +220,12 @@ public class MarketingResource {
     public Mono<ResponseEntity<Void>> deleteMarketing(@PathVariable("id") String id) {
         log.debug("REST request to delete Marketing : {}", id);
         return marketingService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity.noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id))
-                        .build()
-                )
-            );
+                .delete(id)
+                .then(
+                        Mono.just(
+                                ResponseEntity.noContent()
+                                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false,
+                                                ENTITY_NAME, id))
+                                        .build()));
     }
 }

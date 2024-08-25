@@ -28,6 +28,10 @@
       "fieldName": "to",
       "fieldType": "ZonedDateTime",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "google_meet",
+      "fieldType": "String"
     }
   ],
   "name": "Meetings",

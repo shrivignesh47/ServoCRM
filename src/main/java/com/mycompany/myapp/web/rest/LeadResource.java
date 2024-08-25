@@ -54,7 +54,9 @@ public class LeadResource {
      * {@code POST  /leads} : Create a new lead.
      *
      * @param lead the lead to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new lead, or with status {@code 400 (Bad Request)} if the lead has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new lead, or with status {@code 400 (Bad Request)} if the
+     *         lead has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
@@ -64,33 +66,35 @@ public class LeadResource {
             throw new BadRequestAlertException("A new lead cannot already have an ID", ENTITY_NAME, "idexists");
         }
         return leadService
-            .save(lead)
-            .map(result -> {
-                try {
-                    return ResponseEntity.created(new URI("/api/leads/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                .save(lead)
+                .map(result -> {
+                    try {
+                        return ResponseEntity.created(new URI("/api/leads/" + result.getId()))
+                                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                        result.getId()))
+                                .body(result);
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     /**
      * {@code PUT  /leads/:id} : Updates an existing lead.
      *
-     * @param id the id of the lead to save.
+     * @param id   the id of the lead to save.
      * @param lead the lead to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated lead,
-     * or with status {@code 400 (Bad Request)} if the lead is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the lead couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated lead,
+     *         or with status {@code 400 (Bad Request)} if the lead is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the lead
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Lead>> updateLead(
-        @PathVariable(value = "id", required = false) final String id,
-        @Valid @RequestBody Lead lead
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @Valid @RequestBody Lead lead) throws URISyntaxException {
         log.debug("REST request to update Lead : {}, {}", id, lead);
         if (lead.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -100,40 +104,41 @@ public class LeadResource {
         }
 
         return leadRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                return leadService
-                    .update(lead)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        result ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                                .body(result)
-                    );
-            });
+                    return leadService
+                            .update(lead)
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    result -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, result.getId()))
+                                            .body(result));
+                });
     }
 
     /**
-     * {@code PATCH  /leads/:id} : Partial updates given fields of an existing lead, field will ignore if it is null
+     * {@code PATCH  /leads/:id} : Partial updates given fields of an existing lead,
+     * field will ignore if it is null
      *
-     * @param id the id of the lead to save.
+     * @param id   the id of the lead to save.
      * @param lead the lead to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated lead,
-     * or with status {@code 400 (Bad Request)} if the lead is not valid,
-     * or with status {@code 404 (Not Found)} if the lead is not found,
-     * or with status {@code 500 (Internal Server Error)} if the lead couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated lead,
+     *         or with status {@code 400 (Bad Request)} if the lead is not valid,
+     *         or with status {@code 404 (Not Found)} if the lead is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the lead
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Lead>> partialUpdateLead(
-        @PathVariable(value = "id", required = false) final String id,
-        @NotNull @RequestBody Lead lead
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @NotNull @RequestBody Lead lead) throws URISyntaxException {
         log.debug("REST request to partial update Lead partially : {}, {}", id, lead);
         if (lead.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -143,59 +148,57 @@ public class LeadResource {
         }
 
         return leadRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                Mono<Lead> result = leadService.partialUpdate(lead);
+                    Mono<Lead> result = leadService.partialUpdate(lead);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        res ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, res.getId()))
-                                .body(res)
-                    );
-            });
+                    return result
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    res -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, res.getId()))
+                                            .body(res));
+                });
     }
 
     /**
      * {@code GET  /leads} : get all the leads.
      *
      * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of leads in body.
+     * @param request  a {@link ServerHttpRequest} request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of leads in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<List<Lead>>> getAllLeads(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request
-    ) {
+            @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+            ServerHttpRequest request) {
         log.debug("REST request to get a page of Leads");
         return leadService
-            .countAll()
-            .zipWith(leadService.findAll(pageable).collectList())
-            .map(
-                countWithEntities ->
-                    ResponseEntity.ok()
-                        .headers(
-                            PaginationUtil.generatePaginationHttpHeaders(
-                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(), request.getHeaders()),
-                                new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                            )
-                        )
-                        .body(countWithEntities.getT2())
-            );
+                .countAll()
+                .zipWith(leadService.findAll(pageable).collectList())
+                .map(
+                        countWithEntities -> ResponseEntity.ok()
+                                .headers(
+                                        PaginationUtil.generatePaginationHttpHeaders(
+                                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(),
+                                                        request.getHeaders()),
+                                                new PageImpl<>(countWithEntities.getT2(), pageable,
+                                                        countWithEntities.getT1())))
+                                .body(countWithEntities.getT2()));
     }
 
     /**
      * {@code GET  /leads/:id} : get the "id" lead.
      *
      * @param id the id of the lead to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the lead, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the lead, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Lead>> getLead(@PathVariable("id") String id) {
@@ -214,13 +217,12 @@ public class LeadResource {
     public Mono<ResponseEntity<Void>> deleteLead(@PathVariable("id") String id) {
         log.debug("REST request to delete Lead : {}", id);
         return leadService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity.noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id))
-                        .build()
-                )
-            );
+                .delete(id)
+                .then(
+                        Mono.just(
+                                ResponseEntity.noContent()
+                                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false,
+                                                ENTITY_NAME, id))
+                                        .build()));
     }
 }

@@ -54,43 +54,49 @@ public class AccountsResource {
      * {@code POST  /accounts} : Create a new accounts.
      *
      * @param accounts the accounts to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new accounts, or with status {@code 400 (Bad Request)} if the accounts has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new accounts, or with status {@code 400 (Bad Request)} if
+     *         the accounts has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public Mono<ResponseEntity<Accounts>> createAccounts(@Valid @RequestBody Accounts accounts) throws URISyntaxException {
+    public Mono<ResponseEntity<Accounts>> createAccounts(@Valid @RequestBody Accounts accounts)
+            throws URISyntaxException {
         log.debug("REST request to save Accounts : {}", accounts);
         if (accounts.getId() != null) {
             throw new BadRequestAlertException("A new accounts cannot already have an ID", ENTITY_NAME, "idexists");
         }
         return accountsService
-            .save(accounts)
-            .map(result -> {
-                try {
-                    return ResponseEntity.created(new URI("/api/accounts/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                .save(accounts)
+                .map(result -> {
+                    try {
+                        return ResponseEntity.created(new URI("/api/accounts/" + result.getId()))
+                                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                        result.getId()))
+                                .body(result);
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     /**
      * {@code PUT  /accounts/:id} : Updates an existing accounts.
      *
-     * @param id the id of the accounts to save.
+     * @param id       the id of the accounts to save.
      * @param accounts the accounts to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated accounts,
-     * or with status {@code 400 (Bad Request)} if the accounts is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the accounts couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated accounts,
+     *         or with status {@code 400 (Bad Request)} if the accounts is not
+     *         valid,
+     *         or with status {@code 500 (Internal Server Error)} if the accounts
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Accounts>> updateAccounts(
-        @PathVariable(value = "id", required = false) final String id,
-        @Valid @RequestBody Accounts accounts
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @Valid @RequestBody Accounts accounts) throws URISyntaxException {
         log.debug("REST request to update Accounts : {}, {}", id, accounts);
         if (accounts.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -100,40 +106,42 @@ public class AccountsResource {
         }
 
         return accountsRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                return accountsService
-                    .update(accounts)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        result ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                                .body(result)
-                    );
-            });
+                    return accountsService
+                            .update(accounts)
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    result -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, result.getId()))
+                                            .body(result));
+                });
     }
 
     /**
-     * {@code PATCH  /accounts/:id} : Partial updates given fields of an existing accounts, field will ignore if it is null
+     * {@code PATCH  /accounts/:id} : Partial updates given fields of an existing
+     * accounts, field will ignore if it is null
      *
-     * @param id the id of the accounts to save.
+     * @param id       the id of the accounts to save.
      * @param accounts the accounts to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated accounts,
-     * or with status {@code 400 (Bad Request)} if the accounts is not valid,
-     * or with status {@code 404 (Not Found)} if the accounts is not found,
-     * or with status {@code 500 (Internal Server Error)} if the accounts couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated accounts,
+     *         or with status {@code 400 (Bad Request)} if the accounts is not
+     *         valid,
+     *         or with status {@code 404 (Not Found)} if the accounts is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the accounts
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Accounts>> partialUpdateAccounts(
-        @PathVariable(value = "id", required = false) final String id,
-        @NotNull @RequestBody Accounts accounts
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @NotNull @RequestBody Accounts accounts) throws URISyntaxException {
         log.debug("REST request to partial update Accounts partially : {}, {}", id, accounts);
         if (accounts.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -143,61 +151,60 @@ public class AccountsResource {
         }
 
         return accountsRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                Mono<Accounts> result = accountsService.partialUpdate(accounts);
+                    Mono<Accounts> result = accountsService.partialUpdate(accounts);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        res ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, res.getId()))
-                                .body(res)
-                    );
-            });
+                    return result
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    res -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, res.getId()))
+                                            .body(res));
+                });
     }
 
     /**
      * {@code GET  /accounts} : get all the accounts.
      *
-     * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of accounts in body.
+     * @param pageable  the pagination information.
+     * @param request   a {@link ServerHttpRequest} request.
+     * @param eagerload flag to eager load entities from relationships (This is
+     *                  applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of accounts in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<List<Accounts>>> getAllAccounts(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request,
-        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
-    ) {
+            @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+            ServerHttpRequest request,
+            @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload) {
         log.debug("REST request to get a page of Accounts");
         return accountsService
-            .countAll()
-            .zipWith(accountsService.findAll(pageable).collectList())
-            .map(
-                countWithEntities ->
-                    ResponseEntity.ok()
-                        .headers(
-                            PaginationUtil.generatePaginationHttpHeaders(
-                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(), request.getHeaders()),
-                                new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                            )
-                        )
-                        .body(countWithEntities.getT2())
-            );
+                .countAll()
+                .zipWith(accountsService.findAll(pageable).collectList())
+                .map(
+                        countWithEntities -> ResponseEntity.ok()
+                                .headers(
+                                        PaginationUtil.generatePaginationHttpHeaders(
+                                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(),
+                                                        request.getHeaders()),
+                                                new PageImpl<>(countWithEntities.getT2(), pageable,
+                                                        countWithEntities.getT1())))
+                                .body(countWithEntities.getT2()));
     }
 
     /**
      * {@code GET  /accounts/:id} : get the "id" accounts.
      *
      * @param id the id of the accounts to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the accounts, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the accounts, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Accounts>> getAccounts(@PathVariable("id") String id) {
@@ -216,13 +223,12 @@ public class AccountsResource {
     public Mono<ResponseEntity<Void>> deleteAccounts(@PathVariable("id") String id) {
         log.debug("REST request to delete Accounts : {}", id);
         return accountsService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity.noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id))
-                        .build()
-                )
-            );
+                .delete(id)
+                .then(
+                        Mono.just(
+                                ResponseEntity.noContent()
+                                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false,
+                                                ENTITY_NAME, id))
+                                        .build()));
     }
 }

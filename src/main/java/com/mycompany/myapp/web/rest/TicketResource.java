@@ -54,7 +54,9 @@ public class TicketResource {
      * {@code POST  /tickets} : Create a new ticket.
      *
      * @param ticket the ticket to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new ticket, or with status {@code 400 (Bad Request)} if the ticket has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new ticket, or with status {@code 400 (Bad Request)} if the
+     *         ticket has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
@@ -64,33 +66,35 @@ public class TicketResource {
             throw new BadRequestAlertException("A new ticket cannot already have an ID", ENTITY_NAME, "idexists");
         }
         return ticketService
-            .save(ticket)
-            .map(result -> {
-                try {
-                    return ResponseEntity.created(new URI("/api/tickets/" + result.getId()))
-                        .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                        .body(result);
-                } catch (URISyntaxException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+                .save(ticket)
+                .map(result -> {
+                    try {
+                        return ResponseEntity.created(new URI("/api/tickets/" + result.getId()))
+                                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME,
+                                        result.getId()))
+                                .body(result);
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     /**
      * {@code PUT  /tickets/:id} : Updates an existing ticket.
      *
-     * @param id the id of the ticket to save.
+     * @param id     the id of the ticket to save.
      * @param ticket the ticket to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated ticket,
-     * or with status {@code 400 (Bad Request)} if the ticket is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the ticket couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated ticket,
+     *         or with status {@code 400 (Bad Request)} if the ticket is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the ticket
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
     public Mono<ResponseEntity<Ticket>> updateTicket(
-        @PathVariable(value = "id", required = false) final String id,
-        @Valid @RequestBody Ticket ticket
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @Valid @RequestBody Ticket ticket) throws URISyntaxException {
         log.debug("REST request to update Ticket : {}, {}", id, ticket);
         if (ticket.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -100,40 +104,41 @@ public class TicketResource {
         }
 
         return ticketRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                return ticketService
-                    .update(ticket)
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        result ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, result.getId()))
-                                .body(result)
-                    );
-            });
+                    return ticketService
+                            .update(ticket)
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    result -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, result.getId()))
+                                            .body(result));
+                });
     }
 
     /**
-     * {@code PATCH  /tickets/:id} : Partial updates given fields of an existing ticket, field will ignore if it is null
+     * {@code PATCH  /tickets/:id} : Partial updates given fields of an existing
+     * ticket, field will ignore if it is null
      *
-     * @param id the id of the ticket to save.
+     * @param id     the id of the ticket to save.
      * @param ticket the ticket to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated ticket,
-     * or with status {@code 400 (Bad Request)} if the ticket is not valid,
-     * or with status {@code 404 (Not Found)} if the ticket is not found,
-     * or with status {@code 500 (Internal Server Error)} if the ticket couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated ticket,
+     *         or with status {@code 400 (Bad Request)} if the ticket is not valid,
+     *         or with status {@code 404 (Not Found)} if the ticket is not found,
+     *         or with status {@code 500 (Internal Server Error)} if the ticket
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public Mono<ResponseEntity<Ticket>> partialUpdateTicket(
-        @PathVariable(value = "id", required = false) final String id,
-        @NotNull @RequestBody Ticket ticket
-    ) throws URISyntaxException {
+            @PathVariable(value = "id", required = false) final String id,
+            @NotNull @RequestBody Ticket ticket) throws URISyntaxException {
         log.debug("REST request to partial update Ticket partially : {}, {}", id, ticket);
         if (ticket.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -143,61 +148,60 @@ public class TicketResource {
         }
 
         return ticketRepository
-            .existsById(id)
-            .flatMap(exists -> {
-                if (!exists) {
-                    return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
-                }
+                .existsById(id)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound"));
+                    }
 
-                Mono<Ticket> result = ticketService.partialUpdate(ticket);
+                    Mono<Ticket> result = ticketService.partialUpdate(ticket);
 
-                return result
-                    .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
-                    .map(
-                        res ->
-                            ResponseEntity.ok()
-                                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, res.getId()))
-                                .body(res)
-                    );
-            });
+                    return result
+                            .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)))
+                            .map(
+                                    res -> ResponseEntity.ok()
+                                            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false,
+                                                    ENTITY_NAME, res.getId()))
+                                            .body(res));
+                });
     }
 
     /**
      * {@code GET  /tickets} : get all the tickets.
      *
-     * @param pageable the pagination information.
-     * @param request a {@link ServerHttpRequest} request.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of tickets in body.
+     * @param pageable  the pagination information.
+     * @param request   a {@link ServerHttpRequest} request.
+     * @param eagerload flag to eager load entities from relationships (This is
+     *                  applicable for many-to-many).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of tickets in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<List<Ticket>>> getAllTickets(
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        ServerHttpRequest request,
-        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
-    ) {
+            @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+            ServerHttpRequest request,
+            @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload) {
         log.debug("REST request to get a page of Tickets");
         return ticketService
-            .countAll()
-            .zipWith(ticketService.findAll(pageable).collectList())
-            .map(
-                countWithEntities ->
-                    ResponseEntity.ok()
-                        .headers(
-                            PaginationUtil.generatePaginationHttpHeaders(
-                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(), request.getHeaders()),
-                                new PageImpl<>(countWithEntities.getT2(), pageable, countWithEntities.getT1())
-                            )
-                        )
-                        .body(countWithEntities.getT2())
-            );
+                .countAll()
+                .zipWith(ticketService.findAll(pageable).collectList())
+                .map(
+                        countWithEntities -> ResponseEntity.ok()
+                                .headers(
+                                        PaginationUtil.generatePaginationHttpHeaders(
+                                                ForwardedHeaderUtils.adaptFromForwardedHeaders(request.getURI(),
+                                                        request.getHeaders()),
+                                                new PageImpl<>(countWithEntities.getT2(), pageable,
+                                                        countWithEntities.getT1())))
+                                .body(countWithEntities.getT2()));
     }
 
     /**
      * {@code GET  /tickets/:id} : get the "id" ticket.
      *
      * @param id the id of the ticket to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the ticket, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the ticket, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     public Mono<ResponseEntity<Ticket>> getTicket(@PathVariable("id") String id) {
@@ -216,13 +220,12 @@ public class TicketResource {
     public Mono<ResponseEntity<Void>> deleteTicket(@PathVariable("id") String id) {
         log.debug("REST request to delete Ticket : {}", id);
         return ticketService
-            .delete(id)
-            .then(
-                Mono.just(
-                    ResponseEntity.noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id))
-                        .build()
-                )
-            );
+                .delete(id)
+                .then(
+                        Mono.just(
+                                ResponseEntity.noContent()
+                                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false,
+                                                ENTITY_NAME, id))
+                                        .build()));
     }
 }

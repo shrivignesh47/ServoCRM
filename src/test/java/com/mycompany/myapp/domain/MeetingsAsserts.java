@@ -57,7 +57,8 @@ public class MeetingsAsserts {
                         .isEqualTo(actual.getLocation_Offline_Detail())
             )
             .satisfies(e -> assertThat(e.getFrom()).as("check from").usingComparator(zonedDataTimeSameInstant).isEqualTo(actual.getFrom()))
-            .satisfies(e -> assertThat(e.getTo()).as("check to").usingComparator(zonedDataTimeSameInstant).isEqualTo(actual.getTo()));
+            .satisfies(e -> assertThat(e.getTo()).as("check to").usingComparator(zonedDataTimeSameInstant).isEqualTo(actual.getTo()))
+            .satisfies(e -> assertThat(e.getGoogle_meet()).as("check google_meet").isEqualTo(actual.getGoogle_meet()));
     }
 
     /**

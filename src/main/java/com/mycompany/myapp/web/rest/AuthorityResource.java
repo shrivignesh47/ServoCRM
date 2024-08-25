@@ -43,37 +43,43 @@ public class AuthorityResource {
      * {@code POST  /authorities} : Create a new authority.
      *
      * @param authority the authority to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new authority, or with status {@code 400 (Bad Request)} if the authority has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new authority, or with status {@code 400 (Bad Request)} if
+     *         the authority has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    public Mono<ResponseEntity<Authority>> createAuthority(@Valid @RequestBody Authority authority) throws URISyntaxException {
+    public Mono<ResponseEntity<Authority>> createAuthority(@Valid @RequestBody Authority authority)
+            throws URISyntaxException {
         log.debug("REST request to save Authority : {}", authority);
         return authorityRepository
-            .existsById(authority.getName())
-            .flatMap(exists -> {
-                if (exists) {
-                    return Mono.error(new BadRequestAlertException("authority already exists", ENTITY_NAME, "idexists"));
-                }
-                return authorityRepository
-                    .save(authority)
-                    .map(result -> {
-                        try {
-                            return ResponseEntity.created(new URI("/api/authorities/" + result.getName()))
-                                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getName()))
-                                .body(result);
-                        } catch (URISyntaxException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-            });
+                .existsById(authority.getName())
+                .flatMap(exists -> {
+                    if (exists) {
+                        return Mono.error(
+                                new BadRequestAlertException("authority already exists", ENTITY_NAME, "idexists"));
+                    }
+                    return authorityRepository
+                            .save(authority)
+                            .map(result -> {
+                                try {
+                                    return ResponseEntity.created(new URI("/api/authorities/" + result.getName()))
+                                            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false,
+                                                    ENTITY_NAME, result.getName()))
+                                            .body(result);
+                                } catch (URISyntaxException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+                });
     }
 
     /**
      * {@code GET  /authorities} : get all the authorities.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of authorities in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of authorities in body.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
@@ -84,6 +90,7 @@ public class AuthorityResource {
 
     /**
      * {@code GET  /authorities} : get all the authorities as a stream.
+     * 
      * @return the {@link Flux} of authorities.
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_NDJSON_VALUE)
@@ -97,7 +104,8 @@ public class AuthorityResource {
      * {@code GET  /authorities/:id} : get the "id" authority.
      *
      * @param id the id of the authority to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the authority, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the authority, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
@@ -118,13 +126,12 @@ public class AuthorityResource {
     public Mono<ResponseEntity<Void>> deleteAuthority(@PathVariable("id") String id) {
         log.debug("REST request to delete Authority : {}", id);
         return authorityRepository
-            .deleteById(id)
-            .then(
-                Mono.just(
-                    ResponseEntity.noContent()
-                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id))
-                        .build()
-                )
-            );
+                .deleteById(id)
+                .then(
+                        Mono.just(
+                                ResponseEntity.noContent()
+                                        .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false,
+                                                ENTITY_NAME, id))
+                                        .build()));
     }
 }

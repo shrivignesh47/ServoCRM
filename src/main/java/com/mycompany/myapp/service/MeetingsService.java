@@ -72,6 +72,9 @@ public class MeetingsService {
                 if (meetings.getTo() != null) {
                     existingMeetings.setTo(meetings.getTo());
                 }
+                if (meetings.getGoogle_meet() != null) {
+                    existingMeetings.setGoogle_meet(meetings.getGoogle_meet());
+                }
 
                 return existingMeetings;
             })

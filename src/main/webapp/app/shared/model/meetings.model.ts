@@ -9,6 +9,7 @@ export interface IMeetings {
   location_Offline_Detail?: string | null;
   from?: dayjs.Dayjs;
   to?: dayjs.Dayjs;
+  google_meet?: string | null;
   user?: IUser;
 }
 

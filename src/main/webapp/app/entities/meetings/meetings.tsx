@@ -127,6 +127,9 @@ export const Meetings = () => {
                 <th className="hand" onClick={sort('to')}>
                   To <FontAwesomeIcon icon={getSortIconByFieldName('to')} />
                 </th>
+                <th className="hand" onClick={sort('google_meet')}>
+                  Google Meet <FontAwesomeIcon icon={getSortIconByFieldName('google_meet')} />
+                </th>
                 <th>
                   User <FontAwesomeIcon icon="sort" />
                 </th>
@@ -146,6 +149,7 @@ export const Meetings = () => {
                   <td>{meetings.location_Offline_Detail}</td>
                   <td>{meetings.from ? <TextFormat type="date" value={meetings.from} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{meetings.to ? <TextFormat type="date" value={meetings.to} format={APP_DATE_FORMAT} /> : null}</td>
+                  <td>{meetings.google_meet}</td>
                   <td>{meetings.user ? meetings.user.login : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
