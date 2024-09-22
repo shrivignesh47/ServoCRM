@@ -428,7 +428,7 @@ export default function WhatsappMarketing() {
       setSendingStatus('sending');
 
       const accountSid = 'AC244619baac59144203db600381dd4d46'; // Replace with your Twilio Account SID
-      const authToken = 'e3b793637aa8067316f9aa1f0f8ecd28'; // Replace with your Twilio Auth Token
+      const authToken = '3522265e0c41a10cd7e757c119c892d4'; // Replace with your Twilio Auth Token
       const fromWhatsAppNumber = 'whatsapp:+14155238886'; // Replace with your Twilio WhatsApp number
       let toWhatsAppNumber = recipientNumber.startsWith('+')
         ? `whatsapp:${recipientNumber}`

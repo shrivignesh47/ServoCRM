@@ -287,12 +287,12 @@ const ExcelToDashboard: React.FC = () => {
               'api-key': '9351ca19204e49a09ddb691f79867420',
               'Content-Type': 'application/json',
             },
-            timeout: 120000 // Increase timeout to 120 seconds
+            timeout: 120000 
           }
         );
         const reportContent = response.data.choices[0]?.message?.content;
         setReport(reportContent || 'No report available.');
-        break; // Exit loop on success
+        break; 
       } catch (error) {
         attempts++;
         console.error(`Error fetching AI analysis (attempt ${attempts}):`, error);

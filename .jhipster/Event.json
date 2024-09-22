@@ -1,0 +1,28 @@
+{
+  "annotations": {
+    "changelogDate": "20240825110658"
+  },
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "event_name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "event_date",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "registrations",
+      "fieldType": "Integer"
+    }
+  ],
+  "name": "Event",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

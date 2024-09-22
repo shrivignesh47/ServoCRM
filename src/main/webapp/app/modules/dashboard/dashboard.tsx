@@ -403,6 +403,7 @@ import WhatsappMarketing from './Marketing/WhatsappMarketing';
 import Marketplace from './Marketplace/Marketplace';
 import ZoomMeeting from './ZoomMeeting/ManageMeeting';
 import ManageMeeting from './ZoomMeeting/ManageMeeting';
+import EventManagement from './EventManagement/EventManagement';
 
 const Dashboard: React.FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -785,6 +786,8 @@ const Dashboard: React.FC = () => {
               return<Marketplace/>;
               case 'ManageMeeting':
               return<ManageMeeting/>;
+              case 'EventManagement':
+                return<EventManagement/>;
       default:
         return renderDashboard();
     }

@@ -7,6 +7,9 @@ import meetings from 'app/entities/meetings/meetings.reducer';
 import product from 'app/entities/product/product.reducer';
 import ticket from 'app/entities/ticket/ticket.reducer';
 import marketing from 'app/entities/marketing/marketing.reducer';
+import whatsappmarketing from 'app/entities/whatsappmarketing/whatsappmarketing.reducer';
+import event from 'app/entities/event/event.reducer';
+import attendance from 'app/entities/attendance/attendance.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 const entitiesReducers = {
@@ -19,6 +22,9 @@ const entitiesReducers = {
   product,
   ticket,
   marketing,
+  whatsappmarketing,
+  event,
+  attendance,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
 };
 

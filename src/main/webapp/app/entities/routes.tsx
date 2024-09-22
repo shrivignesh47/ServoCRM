@@ -13,6 +13,8 @@ import Product from './product';
 import Ticket from './ticket';
 import Marketing from './marketing';
 import Whatsappmarketing from './whatsappmarketing';
+import Event from './event';
+import Attendance from './attendance';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export default () => {
@@ -31,6 +33,8 @@ export default () => {
         <Route path="marketing/*" element={<Marketing />} />
         <Route path="whatsappmarketing/*" element={<Whatsappmarketing />} />
 
+        <Route path="event/*" element={<Event />} />
+        <Route path="attendance/*" element={<Attendance />} />
         {/* jhipster-needle-add-route-path - JHipster will add routes here */}
       </ErrorBoundaryRoutes>
     </div>
